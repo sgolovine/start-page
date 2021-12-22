@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { Bookmark } from "../../model/Bookmark";
+import { Bookmark } from "../model/Bookmark";
 import { v4 as uuidv4 } from "uuid";
-import { BookmarkContext } from "../../services/BookmarkContext";
+import { BookmarkContext } from "../context/BookmarkContext";
 
 type BookmarkFormState = Partial<Bookmark>;
 

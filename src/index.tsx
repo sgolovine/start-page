@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BookmarkProvider } from "./services/BookmarkContext";
+import { BookmarkProvider } from "./context/BookmarkContext";
 import "./bootstrap-tailwind.css";
 import { MainView } from "./MainView";
 

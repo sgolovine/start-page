@@ -1,14 +1,15 @@
 import { useContext, useState } from "react";
-import { BookmarkCard } from "./components/BookmarkCard";
-import { AddBookmarkForm, useBookmarkForm } from "./components/BookmarkForm";
+import { BookmarkCard } from "./components/BookmarkCard/BookmarkCard";
+import { AddBookmarkForm } from "./components/BookmarkForm/AddBookmarkForm";
+import { useBookmarkForm } from "./hooks/useBookmarkForm";
 import { FormModal } from "./components/BookmarkForm/FormModal";
 import { GearIcon } from "./components/icons/GearIcon";
 import { Bookmark } from "./model/Bookmark";
-import { BookmarkContext } from "./services/BookmarkContext";
+import { BookmarkContext } from "./context/BookmarkContext";
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext);
-  const isEmpty = bookmarkContext.bookmarks.length === 0;
+  const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0;
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false);
   const {
     form,
@@ -33,7 +34,7 @@ export const MainView = () => {
   const handleEditSubmit = () => {
     setEditMode(false);
     setFormModalVisible(false);
-    bookmarkContext.editBookmark(form as Bookmark);
+    bookmarkContext.addBookmark(form as Bookmark);
   };
 
   const handleSubmit = () => {
@@ -58,8 +59,8 @@ export const MainView = () => {
           {isEmpty ? (
             <p>No Bookmarks</p>
           ) : (
-            bookmarkContext.bookmarks.map((item) => (
-              <div className="m-2" key={item.id}>
+            Object.values(bookmarkContext.state.bookmarks).map((item) => {
+              return (
                 <BookmarkCard
                   name={item.name}
                   url={item.url}
@@ -67,8 +68,8 @@ export const MainView = () => {
                   useFavicon={item.useFavicon}
                   onEdit={() => handleEdit(item)}
                 />
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>
