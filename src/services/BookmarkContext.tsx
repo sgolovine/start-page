@@ -1,5 +1,8 @@
 import { createContext, useState } from "react";
 import { Bookmark } from "../model/Bookmark";
+import { useLocalStorage } from "./useLocalStorage";
+
+const LOCAL_STORAGE_KEY = "bookmarks";
 
 export interface IBookmarkContext {
   bookmarks: Bookmark[];
@@ -16,16 +19,16 @@ export const BookmarkContext = createContext<IBookmarkContext>(
 );
 
 export const BookmarkProvider: React.FC = ({ children }) => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const { storedValue: bookmarks, setValue: setBookmarks } = useLocalStorage<
+    Bookmark[]
+  >(LOCAL_STORAGE_KEY, []);
 
   const addBookmark = (bookmark: Bookmark) => {
-    setBookmarks((allBookmarks) => [...allBookmarks, bookmark]);
+    setBookmarks([...bookmarks, bookmark]);
   };
 
   const removeBookmark = (id: string) => {
-    setBookmarks((allBookmarks) =>
-      allBookmarks.filter((bookmark) => bookmark.id !== id)
-    );
+    setBookmarks(bookmarks.filter((bookmark) => bookmark.id !== id));
   };
 
   return (

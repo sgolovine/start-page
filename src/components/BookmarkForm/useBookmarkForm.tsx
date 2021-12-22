@@ -38,7 +38,7 @@ export const useBookmarkForm = () => {
   };
 
   const setSiSlug = (siSlug: string) => {
-    setForm((prevForm) => ({ ...prevForm, siSlug }));
+    setForm((prevForm) => ({ ...prevForm, simpleIconsSlug: siSlug }));
   };
 
   const setUseFavicon = (useFavicon: boolean) => {

@@ -53,7 +53,8 @@ export const BookmarkCard: React.FC<Props> = ({
     <div
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      className="h-48 w-48 border p-2 rounded-lg shadow hover:shadow-lg flex flex-col overflow-hidden"
+      onClick={() => window.location.assign(url)}
+      className="h-48 w-48 border p-2 rounded-lg shadow hover:shadow-lg flex flex-col overflow-hidden cursor-pointer"
     >
       <div className="flex flex-row items-center justify-end h-6">
         {isHovering && (
@@ -69,7 +70,7 @@ export const BookmarkCard: React.FC<Props> = ({
         <h1 className="text-sm font-bold text-ellipsis line-clamp-1">{name}</h1>
         <a
           className="text-xs italic font-medium text-ellipsis line-clamp-1"
-          href="#"
+          href={url}
         >
           {url}
         </a>

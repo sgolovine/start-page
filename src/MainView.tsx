@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BookmarkCard } from "./components/BookmarkCard";
 import { AddBookmarkForm, useBookmarkForm } from "./components/BookmarkForm";
 import { FormModal } from "./components/BookmarkForm/FormModal";
 import { GearIcon } from "./components/icons/GearIcon";
+import { BookmarkContext } from "./services/BookmarkContext";
 
 const testData = new Array(20).fill(0).map((_, i) => ({
   id: `bk-${i}`,
@@ -13,6 +14,8 @@ const testData = new Array(20).fill(0).map((_, i) => ({
 }));
 
 export const MainView = () => {
+  const bookmarkContext = useContext(BookmarkContext);
+  const isEmpty = bookmarkContext.bookmarks.length === 0;
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false);
   const {
     form,
@@ -34,15 +37,20 @@ export const MainView = () => {
       </div>
       <div className="p-4">
         <div className="flex flex-row flex-wrap max-w-5xl">
-          {testData.map((item) => (
-            <div className="m-2" key={item.id}>
-              <BookmarkCard
-                name={item.name}
-                url={item.url}
-                siSlug={item.siSlug}
-              />
-            </div>
-          ))}
+          {isEmpty ? (
+            <p>No Bookmarks</p>
+          ) : (
+            bookmarkContext.bookmarks.map((item) => (
+              <div className="m-2" key={item.id}>
+                <BookmarkCard
+                  name={item.name}
+                  url={item.url}
+                  siSlug={item.simpleIconsSlug}
+                  useFavicon={item.useFavicon}
+                />
+              </div>
+            ))
+          )}
         </div>
       </div>
 
