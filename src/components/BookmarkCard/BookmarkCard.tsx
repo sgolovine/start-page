@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import simpleIcons from "simple-icons";
 import { GearIcon } from "../icons/GearIcon";
 import { GlobeIcon } from "../icons/GlobeIcon";
@@ -21,7 +21,8 @@ export const BookmarkCard: React.FC<Props> = ({
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const simpleIcon = siSlug ? simpleIcons.Get(siSlug) ?? null : null;
 
-  const handleEdit = () => {
+  const handleEdit = (e: any) => {
+    e.stopPropagation();
     if (onEdit) {
       onEdit();
     }
@@ -56,9 +57,9 @@ export const BookmarkCard: React.FC<Props> = ({
       onClick={() => window.location.assign(url)}
       className="h-48 w-48 border p-2 rounded-lg shadow hover:shadow-lg flex flex-col overflow-hidden cursor-pointer"
     >
-      <div className="flex flex-row items-center justify-end h-6">
+      <div className="flex flex-row items-center justify-end h-8">
         {isHovering && (
-          <button onClick={handleEdit}>
+          <button className="p-2 rounded-full" onClick={handleEdit}>
             <GearIcon />
           </button>
         )}

@@ -47,6 +47,7 @@ export const MainView = () => {
                   url={item.url}
                   siSlug={item.simpleIconsSlug}
                   useFavicon={item.useFavicon}
+                  onEdit={() => alert("edit clicked")}
                 />
               </div>
             ))
