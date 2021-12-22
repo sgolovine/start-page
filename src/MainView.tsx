@@ -3,15 +3,8 @@ import { BookmarkCard } from "./components/BookmarkCard";
 import { AddBookmarkForm, useBookmarkForm } from "./components/BookmarkForm";
 import { FormModal } from "./components/BookmarkForm/FormModal";
 import { GearIcon } from "./components/icons/GearIcon";
+import { Bookmark } from "./model/Bookmark";
 import { BookmarkContext } from "./services/BookmarkContext";
-
-const testData = new Array(20).fill(0).map((_, i) => ({
-  id: `bk-${i}`,
-  name: `Bookmark ${i}`,
-  url: `https://example.com/${i}`,
-  siSlug: "github",
-  useFavicon: false,
-}));
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext);
@@ -26,7 +19,32 @@ export const MainView = () => {
     submitForm,
     formNameError,
     formUrlError,
+    setForm,
   } = useBookmarkForm();
+
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const handleEdit = (bookmark: Bookmark) => {
+    setEditMode(true);
+    setForm(bookmark);
+    setFormModalVisible(true);
+  };
+
+  const handleEditSubmit = () => {
+    setEditMode(false);
+    setFormModalVisible(false);
+    bookmarkContext.editBookmark(form as Bookmark);
+  };
+
+  const handleSubmit = () => {
+    submitForm();
+    handleClose();
+  };
+
+  const handleClose = () => {
+    setFormModalVisible(false);
+    setEditMode(false);
+  };
 
   return (
     <div>
@@ -47,7 +65,7 @@ export const MainView = () => {
                   url={item.url}
                   siSlug={item.simpleIconsSlug}
                   useFavicon={item.useFavicon}
-                  onEdit={() => alert("edit clicked")}
+                  onEdit={() => handleEdit(item)}
                 />
               </div>
             ))
@@ -55,11 +73,10 @@ export const MainView = () => {
         </div>
       </div>
 
-      <FormModal
-        visible={formModalVisible}
-        onClose={() => setFormModalVisible(false)}
-      >
+      <FormModal visible={formModalVisible} onClose={handleClose}>
         <AddBookmarkForm
+          editMode={editMode}
+          bookmarkId={form.id}
           bookmarkNameValue={form.name ?? ""}
           bookmarkURLValue={form.url ?? ""}
           bookmarkSiSlugValue={form.simpleIconsSlug ?? ""}
@@ -68,7 +85,9 @@ export const MainView = () => {
           onBookmarkURLChange={setUrl}
           onBookmarkSiSlugChange={setSiSlug}
           onBookmarkUseFaviconChange={setUseFavicon}
-          onSubmit={submitForm}
+          onSubmit={handleSubmit}
+          onEdit={handleEditSubmit}
+          onDelete={bookmarkContext.removeBookmark}
           formNameError={formNameError}
           formUrlError={formUrlError}
         />

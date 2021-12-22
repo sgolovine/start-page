@@ -1,10 +1,12 @@
 import classNames from "classnames";
+import { Bookmark } from "../../model/Bookmark";
 
 const REFERENCE_DOCUMENT_URL =
   "https://github.com/simple-icons/simple-icons/blob/HEAD/slugs.md";
 
 interface Props {
   editMode?: boolean;
+  bookmarkId?: string;
   bookmarkNameValue: string;
   bookmarkURLValue: string;
   bookmarkSiSlugValue: string;
@@ -16,10 +18,13 @@ interface Props {
   onBookmarkSiSlugChange: (newSiSlug: string) => void;
   onBookmarkUseFaviconChange: (newUseFavicon: boolean) => void;
   onSubmit: () => void;
+  onEdit: () => void;
+  onDelete: (bookmarkId: string) => void;
 }
 
 export const AddBookmarkForm: React.FC<Props> = ({
   editMode,
+  bookmarkId,
   bookmarkNameValue,
   bookmarkURLValue,
   bookmarkSiSlugValue,
@@ -31,6 +36,8 @@ export const AddBookmarkForm: React.FC<Props> = ({
   onBookmarkSiSlugChange,
   onBookmarkUseFaviconChange,
   onSubmit,
+  onEdit,
+  onDelete,
 }) => {
   const containerStyle = classNames(["flex", "flex-col", "my-2"]);
   const labelStyle = classNames(["mx-1", "text-sm", "italic", "font-bold"]);
@@ -114,16 +121,16 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
       {/* Submit Button */}
       <div>
-        {editMode && (
+        {editMode && bookmarkId && (
           <button
-            onClick={onSubmit}
+            onClick={() => onDelete(bookmarkId)}
             className="border p-4 font-bold mx-1 my-2 bg-red-500 text-white"
           >
             Delete Bookmark
           </button>
         )}
         <button
-          onClick={onSubmit}
+          onClick={editMode ? onEdit : onSubmit}
           className="border p-4 font-bold mx-1 my-2 bg-green-500 text-white"
         >
           {submitText}

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Bookmark } from "../../model/Bookmark";
 import { v4 as uuidv4 } from "uuid";
 import { BookmarkContext } from "../../services/BookmarkContext";
@@ -19,6 +19,10 @@ export const useBookmarkForm = () => {
     name: false,
     url: false,
   });
+
+  useEffect(() => {
+    console.log("form", form.id);
+  }, [form]);
 
   const isFormValid = () => {
     if (form.name && form.url) {
@@ -57,17 +61,19 @@ export const useBookmarkForm = () => {
       setFormError((prevFormError) => ({ ...prevFormError, url: true }));
     }
     const bookmark: Bookmark = {
-      id: uuidv4(),
+      id: form.id ?? uuidv4(),
       name: form.name as string,
       url: form.url as string,
       useFavicon: form.useFavicon ?? false,
       simpleIconsSlug: form.simpleIconsSlug,
     };
+
     bookmarkContext.addBookmark(bookmark);
   };
 
   return {
     form,
+    setForm: (bookmark: Bookmark) => setForm(bookmark),
     formNameError: formError.name,
     formUrlError: formError.url,
     isFormValid,

@@ -12,6 +12,7 @@ export interface IBookmarkContext {
     bookmark: Bookmark
   ) => void;
   removeBookmark: (id: string) => void;
+  editBookmark: (bookmark: Bookmark) => void;
 }
 
 export const BookmarkContext = createContext<IBookmarkContext>(
@@ -27,6 +28,10 @@ export const BookmarkProvider: React.FC = ({ children }) => {
     setBookmarks([...bookmarks, bookmark]);
   };
 
+  const editBookmark = (bookmark: Bookmark) => {
+    setBookmarks(bookmarks.map((b) => (b.id === bookmark.id ? bookmark : b)));
+  };
+
   const removeBookmark = (id: string) => {
     setBookmarks(bookmarks.filter((bookmark) => bookmark.id !== id));
   };
@@ -37,6 +42,7 @@ export const BookmarkProvider: React.FC = ({ children }) => {
         bookmarks,
         addBookmark,
         removeBookmark,
+        editBookmark,
       }}
     >
       {children}
