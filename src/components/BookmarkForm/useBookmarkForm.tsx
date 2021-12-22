@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { Bookmark } from "../model/Bookmark";
+import { Bookmark } from "../../model/Bookmark";
 import { v4 as uuidv4 } from "uuid";
-import { BookmarkContext } from "./BookmarkContext";
+import { BookmarkContext } from "../../services/BookmarkContext";
 
 type BookmarkFormState = Partial<Bookmark>;
 
@@ -68,6 +68,8 @@ export const useBookmarkForm = () => {
 
   return {
     form,
+    formNameError: formError.name,
+    formUrlError: formError.url,
     isFormValid,
     setName,
     setUrl,

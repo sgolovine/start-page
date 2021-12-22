@@ -4,11 +4,13 @@ const REFERENCE_DOCUMENT_URL =
   "https://github.com/simple-icons/simple-icons/blob/HEAD/slugs.md";
 
 interface Props {
+  editMode?: boolean;
   bookmarkNameValue: string;
   bookmarkURLValue: string;
   bookmarkSiSlugValue: string;
   bookmarkUseFaviconValue: boolean;
-
+  formNameError: boolean;
+  formUrlError: boolean;
   onBookmarkNameChange: (newName: string) => void;
   onBookmarkURLChange: (newURL: string) => void;
   onBookmarkSiSlugChange: (newSiSlug: string) => void;
@@ -17,10 +19,13 @@ interface Props {
 }
 
 export const AddBookmarkForm: React.FC<Props> = ({
+  editMode,
   bookmarkNameValue,
   bookmarkURLValue,
   bookmarkSiSlugValue,
   bookmarkUseFaviconValue,
+  formNameError,
+  formUrlError,
   onBookmarkNameChange,
   onBookmarkURLChange,
   onBookmarkSiSlugChange,
@@ -32,16 +37,27 @@ export const AddBookmarkForm: React.FC<Props> = ({
   const inputStyle = classNames(["my-2", "mx-1", "p-2", "border"]);
   const helperLabelStyle = classNames(["mx-2", "text-xs", "italic"]);
 
+  const formNameClasses = classNames(inputStyle, {
+    "border-red-500": formNameError,
+  });
+
+  const formUrlClasses = classNames(inputStyle, {
+    "border-red-500": formUrlError,
+  });
+
+  const headerText = editMode ? "Edit Bookmark" : "Add Bookmark";
+  const submitText = editMode ? "Save Changes" : "Add Bookmark";
+
   return (
     <div className="flex flex-col max-w-lg border">
-      <h2 className="mx-1 text-lg font-bold">Add Bookmark</h2>
+      <h2 className="mx-1 text-lg font-bold">{headerText}</h2>
       {/* Bookmark Name */}
       <div className={containerStyle}>
         <label className={labelStyle}>Bookmark Name (Required)</label>
         <input
           value={bookmarkNameValue}
           onChange={(e) => onBookmarkNameChange(e.target.value)}
-          className={inputStyle}
+          className={formNameClasses}
           placeholder="Bookmark Name"
         />
       </div>
@@ -52,7 +68,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
         <input
           value={bookmarkURLValue}
           onChange={(e) => onBookmarkURLChange(e.target.value)}
-          className={inputStyle}
+          className={formUrlClasses}
           placeholder="Bookmark URL"
         />
       </div>
@@ -98,11 +114,19 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
       {/* Submit Button */}
       <div>
+        {editMode && (
+          <button
+            onClick={onSubmit}
+            className="border p-4 font-bold mx-1 my-2 bg-red-500 text-white"
+          >
+            Delete Bookmark
+          </button>
+        )}
         <button
           onClick={onSubmit}
           className="border p-4 font-bold mx-1 my-2 bg-green-500 text-white"
         >
-          Add Bookmark
+          {submitText}
         </button>
       </div>
     </div>

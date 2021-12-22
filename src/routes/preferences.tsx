@@ -1,9 +1,16 @@
-import { AddBookmarkForm } from "../components/AddBookmarkForm";
-import { useBookmarkForm } from "../services/useBookmarkForm";
+import { AddBookmarkForm, useBookmarkForm } from "../components/BookmarkForm";
 
 export const PreferencesRoute = () => {
-  const { form, setName, setUrl, setSiSlug, setUseFavicon, submitForm } =
-    useBookmarkForm();
+  const {
+    form,
+    setName,
+    setUrl,
+    setSiSlug,
+    setUseFavicon,
+    submitForm,
+    formNameError,
+    formUrlError,
+  } = useBookmarkForm();
 
   return (
     <div>
@@ -18,6 +25,8 @@ export const PreferencesRoute = () => {
         onBookmarkSiSlugChange={setSiSlug}
         onBookmarkUseFaviconChange={setUseFavicon}
         onSubmit={submitForm}
+        formNameError={formNameError}
+        formUrlError={formUrlError}
       />
     </div>
   );
