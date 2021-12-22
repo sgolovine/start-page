@@ -17,6 +17,8 @@ export const FormModal: React.FC<Props> = ({ visible, children, onClose }) => {
   );
 
   return (
+    // There's no tailwind w-* class that equals 450px.
+    // So we're using a custom style here
     <div className={classes} style={{ width: "450px" }}>
       <div className="fixed top-0 right-0 p-4">
         <button onClick={onClose}>
