@@ -49,7 +49,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
   const submitText = editMode ? "Save Changes" : "Add Bookmark";
 
   return (
-    <div className="flex flex-col max-w-lg border">
+    <div className="flex flex-col max-w-lg">
       <h2 className="mx-1 text-lg font-bold">{headerText}</h2>
       {/* Bookmark Name */}
       <div className={containerStyle}>
@@ -108,7 +108,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
           />
         </label>
         <p className={helperLabelStyle}>
-          Valid slugs will be shown before the favicon
+          Overrides Simple Icons. May not always work properly.
         </p>
       </div>
 

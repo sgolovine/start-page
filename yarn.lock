@@ -272,6 +272,11 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@tailwindcss/line-clamp@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.3.0.tgz#bb342d7bdc11a6568dc6d2aacacd531b25eae7cf"
+  integrity sha512-ffDDclrqr3sy8cpChCozedDUAN8enxqAiWeH8d4dGQ2hcXlxf51+7KleveFi/n/TxEuRVApoL7hICeDOdYPKpg==
+
 "@types/classnames@^2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.3.1.tgz#3c2467aa0f1a93f1f021e3b9bcf938bd5dfdc0dd"
@@ -1210,6 +1215,11 @@ semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
+simple-icons@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/simple-icons/-/simple-icons-6.3.0.tgz#6264af23ade10a6fd6405f6ab89a81cfe4ba2ddd"
+  integrity sha512-EiphqFkv9uh+X0DtTjY5r7SHbZxgCxD0xZUP73yJBEO6FfiIPs4iozFpT9vlg66/lbLGEDxoX5UWiinizl2JMQ==
 
 source-map-js@^1.0.1:
   version "1.0.1"
