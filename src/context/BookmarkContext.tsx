@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { omitKey } from "../helpers/omitKey";
 import { usePersistedReducer } from "../hooks/usePersistedReducer";
 import { Bookmark } from "../model/Bookmark";
@@ -35,7 +35,7 @@ export function reducer(
         ...state,
         bookmarks: {
           ...state.bookmarks,
-          [action.payload.guid]: action.payload,
+          [action.payload.id]: action.payload,
         },
       };
     case "REMOVE_BOOKMARK": {
@@ -57,7 +57,7 @@ export const BookmarkProvider: React.FC = ({ children }) => {
   const { state, dispatch } = usePersistedReducer(
     reducer,
     { bookmarks: {} },
-    "bookmarks-new"
+    "bookmarks"
   );
 
   const addBookmark = (bookmark: Bookmark) => {

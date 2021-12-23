@@ -34,7 +34,7 @@ export const MainView = () => {
   const handleEditSubmit = () => {
     setEditMode(false);
     setFormModalVisible(false);
-    bookmarkContext.addBookmark(form as Bookmark);
+    submitForm();
   };
 
   const handleSubmit = () => {
@@ -45,6 +45,12 @@ export const MainView = () => {
   const handleClose = () => {
     setFormModalVisible(false);
     setEditMode(false);
+  };
+
+  const handleDelete = (id: string) => {
+    bookmarkContext.removeBookmark(id);
+    setEditMode(false);
+    setFormModalVisible(false);
   };
 
   return (
@@ -62,6 +68,7 @@ export const MainView = () => {
             Object.values(bookmarkContext.state.bookmarks).map((item) => {
               return (
                 <BookmarkCard
+                  key={item.id}
                   name={item.name}
                   url={item.url}
                   siSlug={item.simpleIconsSlug}
@@ -88,7 +95,7 @@ export const MainView = () => {
           onBookmarkUseFaviconChange={setUseFavicon}
           onSubmit={handleSubmit}
           onEdit={handleEditSubmit}
-          onDelete={bookmarkContext.removeBookmark}
+          onDelete={handleDelete}
           formNameError={formNameError}
           formUrlError={formUrlError}
         />

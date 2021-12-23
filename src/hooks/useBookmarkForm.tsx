@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Bookmark } from "../model/Bookmark";
 import { v4 as uuidv4 } from "uuid";
 import { BookmarkContext } from "../context/BookmarkContext";
+import { getGuid } from "../helpers/getGuid";
 
 type BookmarkFormState = Partial<Bookmark>;
 
@@ -19,10 +20,6 @@ export const useBookmarkForm = () => {
     name: false,
     url: false,
   });
-
-  useEffect(() => {
-    console.log("form", form.id);
-  }, [form]);
 
   const isFormValid = () => {
     if (form.name && form.url) {
@@ -60,8 +57,9 @@ export const useBookmarkForm = () => {
     if (!form.url) {
       setFormError((prevFormError) => ({ ...prevFormError, url: true }));
     }
+    const bookmarkId = form.id || getGuid();
     const bookmark: Bookmark = {
-      id: form.id ?? uuidv4(),
+      id: bookmarkId,
       name: form.name as string,
       url: form.url as string,
       useFavicon: form.useFavicon ?? false,
