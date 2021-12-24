@@ -43,6 +43,7 @@ export const useBookmarkForm = () => {
   };
 
   const setUseFavicon = (useFavicon: boolean) => {
+    console.log("use favicon value", useFavicon);
     setForm((prevForm) => ({ ...prevForm, useFavicon }));
   };
 
@@ -53,10 +54,13 @@ export const useBookmarkForm = () => {
   const submitForm = () => {
     if (!form.name) {
       setFormError((prevFormError) => ({ ...prevFormError, name: true }));
+      return false;
     }
     if (!form.url) {
       setFormError((prevFormError) => ({ ...prevFormError, url: true }));
+      return false;
     }
+
     const bookmarkId = form.id || getGuid();
     const bookmark: Bookmark = {
       id: bookmarkId,
@@ -67,6 +71,7 @@ export const useBookmarkForm = () => {
     };
 
     bookmarkContext.addBookmark(bookmark);
+    return true;
   };
 
   return {

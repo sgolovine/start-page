@@ -28,8 +28,14 @@ export const BookmarkCard: React.FC<Props> = ({
     }
   };
 
-  const renderSi = () =>
+  const renderIcon = () =>
     useMemo(() => {
+      if (useFavicon) {
+        const faviconUrl = `${url}/favicon.ico`;
+        return (
+          <img className="h-16 w-16 mx-auto" src={faviconUrl} alt={name} />
+        );
+      }
       if (simpleIcon) {
         return (
           <div
@@ -38,17 +44,9 @@ export const BookmarkCard: React.FC<Props> = ({
             dangerouslySetInnerHTML={{ __html: simpleIcon.svg }}
           />
         );
-      } else {
-        return <GlobeIcon />;
       }
-    }, [simpleIcon]);
-
-  const renderFavicon = () => {
-    if (useFavicon) {
-      const faviconUrl = `${url}/favicon.ico`;
-      return <img className="h-16 w-16 mx-auto" src={faviconUrl} alt={name} />;
-    }
-  };
+      return <GlobeIcon />;
+    }, [useFavicon, simpleIcon]);
 
   return (
     <div
@@ -64,9 +62,7 @@ export const BookmarkCard: React.FC<Props> = ({
           </button>
         )}
       </div>
-      <div className="flex grow justify-center pt-2">
-        {useFavicon ? renderFavicon() : renderSi()}
-      </div>
+      <div className="flex grow justify-center pt-2">{renderIcon()}</div>
       <div className="flex flex-col">
         <h1 className="text-sm font-bold text-ellipsis line-clamp-1">{name}</h1>
         <a

@@ -32,14 +32,18 @@ export const MainView = () => {
   };
 
   const handleEditSubmit = () => {
-    setEditMode(false);
-    setFormModalVisible(false);
-    submitForm();
+    const valid = submitForm();
+    if (valid) {
+      setEditMode(false);
+      setFormModalVisible(false);
+    }
   };
 
   const handleSubmit = () => {
-    submitForm();
-    handleClose();
+    const valid = submitForm();
+    if (valid) {
+      handleClose();
+    }
   };
 
   const handleClose = () => {
@@ -67,14 +71,15 @@ export const MainView = () => {
           ) : (
             Object.values(bookmarkContext.state.bookmarks).map((item) => {
               return (
-                <BookmarkCard
-                  key={item.id}
-                  name={item.name}
-                  url={item.url}
-                  siSlug={item.simpleIconsSlug}
-                  useFavicon={item.useFavicon}
-                  onEdit={() => handleEdit(item)}
-                />
+                <div className="m-2" key={item.id}>
+                  <BookmarkCard
+                    name={item.name}
+                    url={item.url}
+                    siSlug={item.simpleIconsSlug}
+                    useFavicon={item.useFavicon}
+                    onEdit={() => handleEdit(item)}
+                  />
+                </div>
               );
             })
           )}
