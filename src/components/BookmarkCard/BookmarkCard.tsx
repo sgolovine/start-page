@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useMemo, useState } from "react";
 import simpleIcons from "simple-icons";
 import { GearIcon } from "../icons/GearIcon";
@@ -8,7 +9,7 @@ interface Props {
   url: string;
   siSlug?: string;
   useFavicon?: boolean;
-  onEdit?: () => void;
+  // onEdit?: () => void;
 }
 
 export const BookmarkCard: React.FC<Props> = ({
@@ -16,55 +17,69 @@ export const BookmarkCard: React.FC<Props> = ({
   url,
   siSlug,
   useFavicon,
-  onEdit,
+  // onEdit,
 }) => {
-  const [isHovering, setIsHovering] = useState<boolean>(false);
   const simpleIcon = siSlug ? simpleIcons.Get(siSlug) ?? null : null;
 
-  const handleEdit = (e: any) => {
-    e.stopPropagation();
-    if (onEdit) {
-      onEdit();
-    }
-  };
+  const containerClasses = classNames([
+    "border",
+    "p-2",
+    "rounded-lg",
+    "shadow",
+    "hover:shadow-lg",
+    "flex",
+    "flex-col",
+    "overflow-hidden",
+    "cursor-pointer",
+    // Widths
+    "w-32",
+    "h-32",
+    "lg:h-48",
+    "lg:w-48",
+  ]);
+
+  const iconClasses = classNames([
+    "h-12",
+    "w-12",
+    "lg:h-16",
+    "lg:w-16",
+    "mx-auto",
+  ]);
 
   const renderIcon = () =>
     useMemo(() => {
       if (useFavicon) {
         const faviconUrl = `${url}/favicon.ico`;
-        return (
-          <img className="h-16 w-16 mx-auto" src={faviconUrl} alt={name} />
-        );
+        return <img className={iconClasses} src={faviconUrl} alt={name} />;
       }
       if (simpleIcon) {
         return (
           <div
             style={{ fill: `#${simpleIcon.hex}` }}
-            className="h-16 w-16 mx-auto"
+            className={iconClasses}
             dangerouslySetInnerHTML={{ __html: simpleIcon.svg }}
           />
         );
       }
-      return <GlobeIcon />;
+      return (
+        <div className={iconClasses}>
+          <GlobeIcon />
+        </div>
+      );
     }, [useFavicon, simpleIcon]);
 
   return (
     <div
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
       onClick={() => window.location.assign(url)}
-      className="h-48 w-48 border p-2 rounded-lg shadow hover:shadow-lg flex flex-col overflow-hidden cursor-pointer"
+      className={containerClasses}
     >
-      <div className="flex flex-row items-center justify-end h-8">
-        {isHovering && (
-          <button className="p-2 rounded-full" onClick={handleEdit}>
-            <GearIcon />
-          </button>
-        )}
+      <div className="flex grow justify-center items-center">
+        {renderIcon()}
       </div>
-      <div className="flex grow justify-center pt-2">{renderIcon()}</div>
       <div className="flex flex-col">
-        <h1 className="text-sm font-bold text-ellipsis line-clamp-1">{name}</h1>
+        <h1 className="text-center lg:text-left text-sm font-bold text-ellipsis line-clamp-1">
+          {name}
+        </h1>
         <a
           className="text-xs italic font-medium text-ellipsis line-clamp-1"
           href={url}

@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { BookmarkCard } from "./components/BookmarkCard/BookmarkCard";
-import { AddBookmarkForm } from "./components/BookmarkForm/AddBookmarkForm";
+import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
 import { useBookmarkForm } from "./hooks/useBookmarkForm";
-import { FormModal } from "./components/BookmarkForm/FormModal";
+import { FormModal } from "./components/Sidebar/FormModal";
 import { GearIcon } from "./components/icons/GearIcon";
 import { Bookmark } from "./model/Bookmark";
 import { BookmarkContext } from "./context/BookmarkContext";
+import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm";
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext);
@@ -58,7 +59,7 @@ export const MainView = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen w-screen overflow-hidden">
       <div className="fixed top-0 right-0 p-4">
         <button onClick={() => setFormModalVisible(true)}>
           <GearIcon />
@@ -77,7 +78,6 @@ export const MainView = () => {
                     url={item.url}
                     siSlug={item.simpleIconsSlug}
                     useFavicon={item.useFavicon}
-                    onEdit={() => handleEdit(item)}
                   />
                 </div>
               );
@@ -104,6 +104,16 @@ export const MainView = () => {
           formNameError={formNameError}
           formUrlError={formUrlError}
         />
+
+        {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
+          <>
+            <hr className="my-4" />
+            <AllBookmarksForm
+              bookmarks={bookmarkContext.state.bookmarks}
+              onEditBookmark={handleEdit}
+            />
+          </>
+        )}
       </FormModal>
     </div>
   );

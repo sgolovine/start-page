@@ -13,19 +13,20 @@ export const FormModal: React.FC<Props> = ({ visible, children, onClose }) => {
       fixed: visible,
       hidden: !visible,
     },
-    ["w-1/4", "right-0", "top-0", "p-4", "bg-white", "border"]
+    ["right-0", "top-0", "bottom-0", "bg-white"],
+    ["w-full", "lg:w-96"]
   );
 
   return (
-    // There's no tailwind w-* class that equals 450px.
-    // So we're using a custom style here
-    <div className={classes} style={{ width: "450px" }}>
-      <div className="fixed top-0 right-0 p-4">
-        <button onClick={onClose}>
-          <CloseIcon />
-        </button>
+    <div className={classes}>
+      <div className="p-4 border h-full overflow-y-scroll scrollbar-hide">
+        <div className="fixed top-0 right-0">
+          <button onClick={onClose} className="bg-white p-4 rounded-full">
+            <CloseIcon />
+          </button>
+        </div>
+        {children}
       </div>
-      {children}
     </div>
   );
 };

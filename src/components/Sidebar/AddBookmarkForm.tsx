@@ -56,7 +56,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
   const submitText = editMode ? "Save Changes" : "Add Bookmark";
 
   return (
-    <div className="flex flex-col max-w-lg">
+    <div className="flex flex-col">
       <h2 className="mx-1 text-lg font-bold">{headerText}</h2>
       {/* Bookmark Name */}
       <div className={containerStyle}>
