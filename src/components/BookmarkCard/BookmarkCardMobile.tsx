@@ -1,27 +1,19 @@
 import classNames from "classnames";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import simpleIcons from "simple-icons";
-import { GearIcon } from "../icons/GearIcon";
+import { formatURL } from "../../helpers/formatUrl";
 import { GlobeIcon } from "../icons/GlobeIcon";
+import { BookmarkCardProps } from "./types";
 
-interface Props {
-  name: string;
-  url: string;
-  siSlug?: string;
-  useFavicon?: boolean;
-  // onEdit?: () => void;
-}
-
-export const BookmarkCard: React.FC<Props> = ({
+export const BookmarkCardMobile: React.FC<BookmarkCardProps> = ({
   name,
   url,
   siSlug,
   useFavicon,
-  // onEdit,
 }) => {
   const simpleIcon = siSlug ? simpleIcons.Get(siSlug) ?? null : null;
 
-  const containerClasses = classNames([
+  const iconContainerClasses = classNames([
     "border",
     "dark:border-zinc-700",
     "p-2",
@@ -33,19 +25,16 @@ export const BookmarkCard: React.FC<Props> = ({
     "overflow-hidden",
     "cursor-pointer",
     "dark:bg-zinc-800",
-
-    // Widths
-    "w-32",
-    "h-32",
-    "lg:h-48",
-    "lg:w-48",
+    "h-16",
+    "w-16",
+    "grow",
+    "justify-center",
+    "items-center",
   ]);
 
   const iconClasses = classNames([
     "h-12",
     "w-12",
-    "lg:h-16",
-    "lg:w-16",
     "mx-auto",
     "bg-white",
     "rounded-full",
@@ -74,22 +63,17 @@ export const BookmarkCard: React.FC<Props> = ({
     }, [useFavicon, simpleIcon]);
 
   return (
-    <div
-      onClick={() => window.location.assign(url)}
-      className={containerClasses}
-    >
-      <div className="flex grow justify-center items-center">
-        {renderIcon()}
-      </div>
-      <div className="flex flex-col">
-        <h1 className="text-center lg:text-left text-sm font-bold text-ellipsis line-clamp-1 dark:text-gray-50">
+    <div onClick={() => window.location.assign(url)}>
+      <div className={iconContainerClasses}>{renderIcon()}</div>
+      <div className="w-16 pt-1 text-center">
+        <h1 className="text-center text-xs font-semibold text-ellipsis line-clamp-1 dark:text-gray-50">
           {name}
         </h1>
         <a
           className="text-xs italic font-medium text-ellipsis line-clamp-1 dark:text-blue-200"
           href={url}
         >
-          {url}
+          {formatURL(url)}
         </a>
       </div>
     </div>

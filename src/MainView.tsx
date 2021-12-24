@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { BookmarkCard } from "./components/BookmarkCard/BookmarkCard";
+import { BookmarkCard } from "./components/BookmarkCard";
 import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
 import { useBookmarkForm } from "./hooks/useBookmarkForm";
 import { FormModal } from "./components/Sidebar/FormModal";
@@ -67,7 +67,7 @@ export const MainView = () => {
     <>
       <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
       <div className="mt-16 p-4">
-        <div className="flex flex-row flex-wrap max-w-5xl">
+        <div className="flex flex-row flex-wrap justify-evenly sm:justify-start max-w-5xl">
           {isEmpty ? (
             <p className="text-zinc-900 dark:text-white">No Bookmarks</p>
           ) : (
