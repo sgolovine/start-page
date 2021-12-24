@@ -23,6 +23,7 @@ export const MainView = () => {
     formNameError,
     formUrlError,
     setForm,
+    clearForm,
   } = useBookmarkForm();
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -38,6 +39,7 @@ export const MainView = () => {
     if (valid) {
       setEditMode(false);
       setFormModalVisible(false);
+      clearForm();
     }
   };
 
@@ -45,12 +47,14 @@ export const MainView = () => {
     const valid = submitForm();
     if (valid) {
       handleClose();
+      clearForm();
     }
   };
 
   const handleClose = () => {
     setFormModalVisible(false);
     setEditMode(false);
+    clearForm();
   };
 
   const handleDelete = (id: string) => {

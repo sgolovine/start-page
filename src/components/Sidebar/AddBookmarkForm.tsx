@@ -92,6 +92,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
           onChange={(e) => onBookmarkNameChange(e.target.value)}
           className={formNameClasses}
           placeholder="Bookmark Name"
+          type="text"
         />
       </div>
 
@@ -103,6 +104,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
           onChange={(e) => onBookmarkURLChange(e.target.value)}
           className={formUrlClasses}
           placeholder="Bookmark URL"
+          type="url"
         />
       </div>
 
@@ -110,6 +112,9 @@ export const AddBookmarkForm: React.FC<Props> = ({
       <div className={containerStyle}>
         <label className={labelStyle}>Simple Icon Slug (Optional)</label>
         <input
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="off"
           value={bookmarkSiSlugValue}
           onChange={(e) => onBookmarkSiSlugChange(e.target.value)}
           className={inputStyle}

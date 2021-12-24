@@ -5,6 +5,7 @@ import "./bootstrap-tailwind.css";
 import { MainView } from "./MainView";
 import { AppContainer } from "./AppContainer";
 import { ThemeProvider } from "./context/ThemeContext";
+import { registerSW } from "virtual:pwa-register";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,3 +19,14 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+
+const intervalMS = 60 * 60 * 1000;
+
+registerSW({
+  onRegistered(r: any) {
+    r &&
+      setInterval(() => {
+        r.update();
+      }, intervalMS);
+  },
+});
