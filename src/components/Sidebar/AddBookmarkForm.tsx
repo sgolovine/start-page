@@ -40,9 +40,33 @@ export const AddBookmarkForm: React.FC<Props> = ({
   onDelete,
 }) => {
   const containerStyle = classNames(["flex", "flex-col", "my-2"]);
-  const labelStyle = classNames(["mx-1", "text-sm", "italic", "font-bold"]);
-  const inputStyle = classNames(["my-2", "mx-1", "p-2", "border"]);
-  const helperLabelStyle = classNames(["mx-2", "text-xs", "italic"]);
+  const labelStyle = classNames([
+    "mx-1",
+    "text-sm",
+    "italic",
+    "font-bold",
+    "text-zinc-900",
+    "dark:text-gray-100",
+  ]);
+  const inputStyle = classNames([
+    "my-2",
+    "mx-1",
+    "p-2",
+    "rounded-md",
+    "border",
+    "dark:border-zinc-800",
+    "bg-white",
+    "dark:bg-zinc-700",
+    "text-zinc-900",
+    "dark:text-white",
+  ]);
+  const helperLabelStyle = classNames([
+    "mx-2",
+    "text-xs",
+    "italic",
+    "text-zinc-900",
+    "dark:text-white",
+  ]);
 
   const formNameClasses = classNames(inputStyle, {
     "border-red-500": formNameError,
@@ -57,7 +81,9 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <h2 className="mx-1 text-xl font-bold">{headerText}</h2>
+      <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
+        {headerText}
+      </h2>
       {/* Bookmark Name */}
       <div className={containerStyle}>
         <label className={labelStyle}>Bookmark Name (Required)</label>
@@ -92,7 +118,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
         <p className={helperLabelStyle}>
           Refer to this{" "}
           <a
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
             href={REFERENCE_DOCUMENT_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -105,7 +131,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
       {/* Use Favicons */}
       <div className={containerStyle}>
-        <label className="mx-1 font-bold">
+        <label className="mx-1 font-bold text-zinc-900 dark:text-white">
           Use Favicon
           <input
             checked={bookmarkUseFaviconValue}
@@ -124,14 +150,14 @@ export const AddBookmarkForm: React.FC<Props> = ({
         {editMode && bookmarkId && (
           <button
             onClick={() => onDelete(bookmarkId)}
-            className="border p-4 font-bold mx-1 my-2 bg-red-500 text-white"
+            className="p-1 font-bold mx-1 my-2 text-red-600 dark:text-red-400"
           >
             Delete Bookmark
           </button>
         )}
         <button
           onClick={editMode ? onEdit : onSubmit}
-          className="border p-4 font-bold mx-1 my-2 bg-green-500 text-white"
+          className="p-1 font-bold mx-1 my-2 text-green-700 dark:text-green-400"
         >
           {submitText}
         </button>

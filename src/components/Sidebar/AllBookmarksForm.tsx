@@ -17,7 +17,7 @@ export const AllBookmarksForm: React.FC<Props> = ({
   bookmarks,
   onEditBookmark,
 }) => {
-  const faviconClasses = classNames(["h-6", "w-6"]);
+  const faviconClasses = classNames(["h-6", "w-6", "bg-white", "rounded-full"]);
 
   const renderIcon = ({
     url,
@@ -70,7 +70,7 @@ export const AllBookmarksForm: React.FC<Props> = ({
           return (
             <div
               key={bookmark.id}
-              className="flex flex-row rounded-md items-center justify-between h-16 border p-2 my-2"
+              className="flex flex-row rounded-md items-center justify-between h-16 border dark:border-zinc-700 p-2 my-2"
             >
               {/* Left Hand Side */}
               <div className="flex flex-row items-center justify-start">
@@ -82,13 +82,15 @@ export const AllBookmarksForm: React.FC<Props> = ({
                     simpleIconSlug: bookmark.simpleIconsSlug,
                   })}
                 </div>
-                <p className="font-semibold text-lg mx-2">{bookmark.name}</p>
+                <p className="font-semibold text-lg mx-2 text-zinc-900 dark:text-white">
+                  {bookmark.name}
+                </p>
               </div>
 
               {/* Right hand side */}
               <div className="flex flex-row items-center">
                 <button
-                  className="h-8 w-8 border rounded-full flex justify-center items-center mx-2"
+                  className="h-8 w-8 border dark:border-zinc-700 rounded-full flex justify-center items-center mx-2"
                   onClick={() => onEditBookmark(bookmark)}
                 >
                   <EditIcon />

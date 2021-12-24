@@ -60,12 +60,12 @@ export const MainView = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <>
       <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
       <div className="mt-16 p-4">
         <div className="flex flex-row flex-wrap max-w-5xl">
           {isEmpty ? (
-            <p>No Bookmarks</p>
+            <p className="text-zinc-900 dark:text-white">No Bookmarks</p>
           ) : (
             Object.values(bookmarkContext.state.bookmarks).map((item) => {
               return (
@@ -116,6 +116,6 @@ export const MainView = () => {
 
         <Preferences />
       </FormModal>
-    </div>
+    </>
   );
 };

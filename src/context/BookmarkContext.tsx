@@ -1,4 +1,5 @@
 import React, { createContext, useEffect } from "react";
+import { LocalStorageKeys } from "../constants/localStorage";
 import { omitKey } from "../helpers/omitKey";
 import { usePersistedReducer } from "../hooks/usePersistedReducer";
 import { Bookmark } from "../model/Bookmark";
@@ -57,7 +58,7 @@ export const BookmarkProvider: React.FC = ({ children }) => {
   const { state, dispatch } = usePersistedReducer(
     reducer,
     { bookmarks: {} },
-    "bookmarks"
+    LocalStorageKeys.Bookmarks
   );
 
   const addBookmark = (bookmark: Bookmark) => {

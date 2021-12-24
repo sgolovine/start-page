@@ -1,7 +1,7 @@
 export const EditIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
+    className="h-5 w-5 stroke-zinc-900 fill-zinc-900 dark:stroke-white dark:fill-white"
     viewBox="0 0 20 20"
     fill="currentColor"
   >

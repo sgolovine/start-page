@@ -1,9 +1,5 @@
-import React, {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  KeyboardEventHandler,
-  useState,
-} from "react";
+import classNames from "classnames";
+import React, { useState } from "react";
 import { GearIcon } from "../icons/GearIcon";
 
 interface Props {
@@ -21,10 +17,10 @@ export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-16 px-4 lg:px-6 bg-white shadow-sm flex flex-row items-center justify-between">
+    <div className="fixed top-0 left-0 right-0 h-16 px-4 lg:px-6 bg-white dark:bg-zinc-800 shadow-sm flex flex-row items-center justify-between">
       <div className="flex-grow flex flex-row items-center mr-4">
         <input
-          className="flex-grow border shadow rounded-lg px-4 py-2"
+          className="flex-grow border shadow rounded-lg px-4 py-2 bg-white dark:bg-zinc-900 dark:border-gray-900 text-gray-800 dark:text-gray-50"
           placeholder="Search the Web (Press <Enter> to Search)"
           value={webSearchValue}
           onChange={(e) => setWebSearchValue(e.target.value)}

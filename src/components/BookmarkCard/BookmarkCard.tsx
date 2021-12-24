@@ -23,6 +23,7 @@ export const BookmarkCard: React.FC<Props> = ({
 
   const containerClasses = classNames([
     "border",
+    "dark:border-zinc-700",
     "p-2",
     "rounded-lg",
     "shadow",
@@ -31,6 +32,8 @@ export const BookmarkCard: React.FC<Props> = ({
     "flex-col",
     "overflow-hidden",
     "cursor-pointer",
+    "dark:bg-zinc-800",
+
     // Widths
     "w-32",
     "h-32",
@@ -44,6 +47,8 @@ export const BookmarkCard: React.FC<Props> = ({
     "lg:h-16",
     "lg:w-16",
     "mx-auto",
+    "bg-white",
+    "rounded-full",
   ]);
 
   const renderIcon = () =>
@@ -77,11 +82,11 @@ export const BookmarkCard: React.FC<Props> = ({
         {renderIcon()}
       </div>
       <div className="flex flex-col">
-        <h1 className="text-center lg:text-left text-sm font-bold text-ellipsis line-clamp-1">
+        <h1 className="text-center lg:text-left text-sm font-bold text-ellipsis line-clamp-1 dark:text-gray-50">
           {name}
         </h1>
         <a
-          className="text-xs italic font-medium text-ellipsis line-clamp-1"
+          className="text-xs italic font-medium text-ellipsis line-clamp-1 dark:text-blue-200"
           href={url}
         >
           {url}
