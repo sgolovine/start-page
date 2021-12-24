@@ -3,10 +3,11 @@ import { BookmarkCard } from "./components/BookmarkCard/BookmarkCard";
 import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
 import { useBookmarkForm } from "./hooks/useBookmarkForm";
 import { FormModal } from "./components/Sidebar/FormModal";
-import { GearIcon } from "./components/icons/GearIcon";
 import { Bookmark } from "./model/Bookmark";
 import { BookmarkContext } from "./context/BookmarkContext";
 import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm";
+import { Header } from "./components/Header/Header";
+import { Preferences } from "./components/Sidebar/Preferences";
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext);
@@ -60,12 +61,8 @@ export const MainView = () => {
 
   return (
     <div className="h-screen w-screen overflow-hidden">
-      <div className="fixed top-0 right-0 p-4">
-        <button onClick={() => setFormModalVisible(true)}>
-          <GearIcon />
-        </button>
-      </div>
-      <div className="p-4">
+      <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
+      <div className="mt-16 p-4">
         <div className="flex flex-row flex-wrap max-w-5xl">
           {isEmpty ? (
             <p>No Bookmarks</p>
@@ -114,6 +111,10 @@ export const MainView = () => {
             />
           </>
         )}
+
+        <hr className="my-4" />
+
+        <Preferences />
       </FormModal>
     </div>
   );

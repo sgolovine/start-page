@@ -57,7 +57,7 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <h2 className="mx-1 text-lg font-bold">{headerText}</h2>
+      <h2 className="mx-1 text-xl font-bold">{headerText}</h2>
       {/* Bookmark Name */}
       <div className={containerStyle}>
         <label className={labelStyle}>Bookmark Name (Required)</label>

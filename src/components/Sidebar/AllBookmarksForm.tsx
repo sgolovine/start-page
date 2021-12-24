@@ -64,7 +64,7 @@ export const AllBookmarksForm: React.FC<Props> = ({
 
   return (
     <div>
-      <h2 className="mx-1 text-lg font-bold">All Bookmarks</h2>
+      <h2 className="mx-1 text-xl font-bold">All Bookmarks</h2>
       <div className="m-2">
         {Object.values(bookmarks).map((bookmark) => {
           return (
