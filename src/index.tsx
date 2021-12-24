@@ -6,10 +6,12 @@ import { MainView } from "./MainView";
 import { AppContainer } from "./AppContainer";
 import { ThemeProvider } from "./context/ThemeContext";
 import { registerSW } from "virtual:pwa-register";
+import { ThemeHelmet } from "./components/Helmet/ThemeHelmet";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider>
+      <ThemeHelmet />
       <AppContainer>
         <BookmarkProvider>
           <MainView />

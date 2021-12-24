@@ -16,7 +16,10 @@ const pwaConfig: Partial<VitePWAOptions> = {
     short_name: "Start Page",
     description: "Your start page",
     orientation: "portrait",
-    theme_color: "#18181B", // zinc 900 from tailwindCSS
+    theme_color: "#fff",
+    background_color: "#fff",
+    display: "browser",
+    dir: "ltr",
     icons: [
       {
         src: "icon-192.png",
