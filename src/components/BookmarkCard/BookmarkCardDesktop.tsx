@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import React, { useMemo } from "react";
-import simpleIcons from "simple-icons";
+import React, { useEffect, useMemo, useState } from "react";
 import { GlobeIcon } from "../icons/GlobeIcon";
 import { BookmarkCardProps } from "./types";
+import iconColors from "../../config/si-color-map.json";
 
 export const BookmarkCardDesktop: React.FC<BookmarkCardProps> = ({
   name,
@@ -10,7 +10,26 @@ export const BookmarkCardDesktop: React.FC<BookmarkCardProps> = ({
   siSlug,
   useFavicon,
 }) => {
-  const simpleIcon = siSlug ? simpleIcons.Get(siSlug) ?? null : null;
+  const [siSlugSVG, setSiSlugSVG] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchIcon = async () => {
+      const res = await fetch(
+        `https://cdn.jsdelivr.net/npm/simple-icons@v6/icons/${siSlug}.svg`
+      );
+      const svg = await res.text();
+      setSiSlugSVG(svg);
+    };
+
+    // Only do this if the bookmark has an SiSlug
+    if (siSlug) {
+      fetchIcon();
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(siSlugSVG);
+  // }, [siSlugSVG]);
 
   const containerClasses = classNames([
     "border",
@@ -42,12 +61,13 @@ export const BookmarkCardDesktop: React.FC<BookmarkCardProps> = ({
         const faviconUrl = `${url}/favicon.ico`;
         return <img className={iconClasses} src={faviconUrl} alt={name} />;
       }
-      if (simpleIcon) {
+      if (siSlug && siSlugSVG) {
+        const hexColor = iconColors.colorMap;
         return (
           <div
-            style={{ fill: `#${simpleIcon.hex}` }}
+            // style={{ fill: `#${simpleIcon.hex}` }}
             className={iconClasses}
-            dangerouslySetInnerHTML={{ __html: simpleIcon.svg }}
+            dangerouslySetInnerHTML={{ __html: siSlugSVG ?? "" }}
           />
         );
       }
@@ -56,7 +76,7 @@ export const BookmarkCardDesktop: React.FC<BookmarkCardProps> = ({
           <GlobeIcon />
         </div>
       );
-    }, [useFavicon, simpleIcon]);
+    }, [useFavicon, siSlug, siSlugSVG]);
 
   return (
     <div
