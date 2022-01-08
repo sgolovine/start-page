@@ -3,9 +3,15 @@
  *
  * We need to do this since we can't get the color via
  * the CDN
+ *
+ * TODO: Not currently reproducible
+ * The biggest problem is that "si-slugs.json"
+ * is a file created manually. We need to create this file
+ * inline with this script
+ *
  */
 var siSlugs = require("../si-slugs.json");
-var simpleIcons = require("simple-icons");
+var simpleIcons = require("https://cdn.jsdelivr.net/npm/simple-icons@v6.5.0");
 var path = require("path");
 var fs = require("fs");
 
