@@ -43,7 +43,6 @@ export const useBookmarkForm = () => {
   };
 
   const setUseFavicon = (useFavicon: boolean) => {
-    console.log("use favicon value", useFavicon);
     setForm((prevForm) => ({ ...prevForm, useFavicon }));
   };
 
