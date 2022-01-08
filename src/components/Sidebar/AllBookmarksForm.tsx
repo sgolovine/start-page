@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React from "react";
-import simpleIcons from "simple-icons";
 import { Bookmark } from "../../model/Bookmark";
 import { EditIcon } from "../icons/EditIcon";
 import { GlobeIcon } from "../icons/GlobeIcon";
@@ -18,49 +17,6 @@ export const AllBookmarksForm: React.FC<Props> = ({
 }) => {
   const faviconClasses = classNames(["h-6", "w-6", "bg-white", "rounded-full"]);
 
-  const renderIcon = ({
-    url,
-    useFavicon,
-    simpleIconSlug,
-    name,
-  }: {
-    url?: string;
-    useFavicon?: boolean;
-    simpleIconSlug?: string;
-    name?: string;
-  }) => {
-    const simpleIcon = simpleIconSlug
-      ? simpleIcons.Get(simpleIconSlug) ?? null
-      : null;
-
-    if (useFavicon && url) {
-      const faviconUrl = `${url}/favicon.ico`;
-      return (
-        <img
-          className={faviconClasses}
-          src={faviconUrl}
-          alt={name ?? "favicon"}
-        />
-      );
-    }
-
-    if (simpleIcon) {
-      return (
-        <div
-          style={{ fill: `#${simpleIcon.hex}` }}
-          className={faviconClasses}
-          dangerouslySetInnerHTML={{ __html: simpleIcon.svg }}
-        />
-      );
-    }
-
-    return (
-      <div className={faviconClasses}>
-        <GlobeIcon />
-      </div>
-    );
-  };
-
   return (
     <div>
       <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
@@ -75,14 +31,6 @@ export const AllBookmarksForm: React.FC<Props> = ({
             >
               {/* Left Hand Side */}
               <div className="flex flex-row items-center justify-start">
-                <div>
-                  {renderIcon({
-                    url: bookmark.url,
-                    name: bookmark.name,
-                    useFavicon: bookmark.useFavicon,
-                    simpleIconSlug: bookmark.simpleIconsSlug,
-                  })}
-                </div>
                 <p className="font-semibold text-lg mx-2 text-zinc-900 dark:text-white">
                   {bookmark.name}
                 </p>
