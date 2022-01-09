@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BookmarkProvider } from "./context/BookmarkContext";
 import "./bootstrap-tailwind.css";
-import { MainView } from "./MainView";
 import { AppContainer } from "./AppContainer";
 import { ThemeProvider } from "./context/ThemeContext";
 import { registerSW } from "virtual:pwa-register";
 import { ThemeHelmet } from "./components/Helmet/ThemeHelmet";
+import { Router } from "./Router";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +14,7 @@ ReactDOM.render(
       <ThemeHelmet />
       <AppContainer>
         <BookmarkProvider>
-          <MainView />
+          <Router />
         </BookmarkProvider>
       </AppContainer>
     </ThemeProvider>

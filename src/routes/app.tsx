@@ -1,15 +1,15 @@
 import { useContext, useState } from "react";
-import { BookmarkCard } from "./components/BookmarkCard";
-import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
-import { useBookmarkForm } from "./hooks/useBookmarkForm";
-import { FormModal } from "./components/Sidebar/FormModal";
-import { Bookmark } from "./model/Bookmark";
-import { BookmarkContext } from "./context/BookmarkContext";
-import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm";
-import { Header } from "./components/Header/Header";
-import { Preferences } from "./components/Sidebar/Preferences";
+import { BookmarkCard } from "../components/BookmarkCard";
+import { AddBookmarkForm } from "../components/Sidebar/AddBookmarkForm";
+import { useBookmarkForm } from "../hooks/useBookmarkForm";
+import { FormModal } from "../components/Sidebar/FormModal";
+import { Bookmark } from "../model/Bookmark";
+import { BookmarkContext } from "../context/BookmarkContext";
+import { AllBookmarksForm } from "../components/Sidebar/AllBookmarksForm";
+import { Header } from "../components/Header/Header";
+import { Preferences } from "../components/Sidebar/Preferences";
 
-export const MainView = () => {
+export const AppRoute = () => {
   const bookmarkContext = useContext(BookmarkContext);
   const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0;
   const [formModalVisible, setFormModalVisible] = useState<boolean>(false);
@@ -88,7 +88,7 @@ export const MainView = () => {
       </div>
 
       <FormModal visible={formModalVisible} onClose={handleClose}>
-        <AddBookmarkForm
+        {/* <AddBookmarkForm
           editMode={editMode}
           bookmarkId={form.id}
           bookmarkNameValue={form.name ?? ""}
@@ -104,11 +104,11 @@ export const MainView = () => {
           onDelete={handleDelete}
           formNameError={formNameError}
           formUrlError={formUrlError}
-        />
+        /> */}
 
         {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
           <>
-            <hr className="my-4" />
+            {/* <hr className="my-4" /> */}
             <AllBookmarksForm
               bookmarks={bookmarkContext.state.bookmarks}
               onEditBookmark={handleEdit}

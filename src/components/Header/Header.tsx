@@ -1,5 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
+import { AddIcon } from "../icons/AddIcon";
+import { EditIcon } from "../icons/EditIcon";
 import { GearIcon } from "../icons/GearIcon";
 
 interface Props {
@@ -16,6 +18,18 @@ export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
     );
   };
 
+  const handleCreateBookmark = () => {
+    const baseUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/add"
+        : "https://startpage.sunny.gg/add";
+
+    const options =
+      "resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no,height=500,width=500";
+
+    window.open(baseUrl, "_blank", options);
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 h-16 px-4 lg:px-6 bg-white dark:bg-zinc-800 shadow-sm flex flex-row items-center justify-between">
       <div className="flex-grow flex flex-row items-center mr-4">
@@ -29,8 +43,11 @@ export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
           }}
         />
       </div>
-      <button onClick={() => onSidebarButtonClick()}>
+      <button className="m-1 p-1" onClick={() => onSidebarButtonClick()}>
         <GearIcon />
+      </button>
+      <button className="m-1 p-1" onClick={() => handleCreateBookmark()}>
+        <AddIcon />
       </button>
     </div>
   );

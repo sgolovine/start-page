@@ -20,6 +20,28 @@ Inspired by some of the work on [/r/startpages](https://reddit.com/r/startpages)
 - Search should be expanded to Searchx, Google, Bing, etc. This should be really easy
 - Build/Lint system of some sort
 
+## Bookmarklet
+
+```javascript
+// For development
+javascript: (function () {
+  open(
+    `http://localhost:3000/add?title=${document.title}&url=${window.location.href}`,
+    "_blank",
+    "resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no,height=500,width=500"
+  );
+})();
+
+// For Production
+javascript: (function () {
+  open(
+    `https://startpage.sunny.gg/add?title=${document.title}&url=${window.location.href}`,
+    "_blank",
+    "resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no,height=500,width=500"
+  );
+})();
+```
+
 ## License
 
 MIT
