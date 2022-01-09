@@ -7,7 +7,7 @@ import { formatURL } from "../../helpers/formatUrl";
 import {
   desktopIconClasses,
   mobileIconClasses,
-  desktopIconContainerClasses,
+  desktopContainerClasses,
   mobileIconContainerClasses,
   showForDesktop,
   showForMobile,
@@ -24,14 +24,20 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   useEffect(() => {
     const fetchIcon = async () => {
       const res = await fetch(`${SIMPLE_ICONS_CDN}/${siSlug}.svg`);
-      const svg = await res.text();
-      setSiSlugSVG(svg);
+      if (res.status !== 404) {
+        const svg = await res.text();
+        setSiSlugSVG(svg);
+      }
     };
 
     if (siSlug) {
-      fetchIcon();
+      try {
+        fetchIcon();
+      } catch {
+        setSiSlugSVG(undefined);
+      }
     }
-  }, []);
+  }, [siSlug]);
 
   const handleClick = () => window.location.assign(url);
 
@@ -40,7 +46,18 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
       if (useFavicon) {
         const faviconUrl = `${url}/favicon.ico`;
         return (
-          <img className={desktopIconClasses} src={faviconUrl} alt={name} />
+          <>
+            <div className={showForDesktop}>
+              <div className={desktopIconClasses}>
+                <img className="h-12 w-12" src={faviconUrl} alt={name} />
+              </div>
+            </div>
+            <div className={showForMobile}>
+              <div className={mobileIconClasses}>
+                <img className="h-8 w-8" src={faviconUrl} alt={name} />
+              </div>
+            </div>
+          </>
         );
       }
       if (siSlug && siSlugSVG) {
@@ -49,18 +66,22 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
         return (
           <>
             <div className={showForDesktop}>
-              <div
-                style={{ fill: hexColor }}
-                className={desktopIconClasses}
-                dangerouslySetInnerHTML={{ __html: siSlugSVG ?? "" }}
-              />
+              <div className={desktopIconClasses}>
+                <div
+                  style={{ fill: hexColor }}
+                  className="h-12 w-12"
+                  dangerouslySetInnerHTML={{ __html: siSlugSVG ?? "" }}
+                />
+              </div>
             </div>
             <div className={showForMobile}>
-              <div
-                style={{ fill: hexColor }}
-                className={mobileIconClasses}
-                dangerouslySetInnerHTML={{ __html: siSlugSVG ?? "" }}
-              />
+              <div className={mobileIconClasses}>
+                <div
+                  style={{ fill: hexColor }}
+                  className="h-8 w-8"
+                  dangerouslySetInnerHTML={{ __html: siSlugSVG ?? "" }}
+                />
+              </div>
             </div>
           </>
         );
@@ -79,13 +100,13 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
           </div>
         </>
       );
-    }, [useFavicon, siSlug, siSlugSVG]);
+    }, [siSlugSVG]);
 
   return (
     <>
       {/* Desktop */}
       <div className={showForDesktop}>
-        <div onClick={handleClick} className={desktopIconContainerClasses}>
+        <div onClick={handleClick} className={desktopContainerClasses}>
           <div className="flex grow justify-center items-center">
             {renderIcon()}
           </div>

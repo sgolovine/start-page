@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-export const desktopIconContainerClasses = classNames([
+export const desktopContainerClasses = classNames([
   "border",
   "dark:border-zinc-700",
   "p-2",
@@ -19,9 +19,12 @@ export const desktopIconContainerClasses = classNames([
 export const desktopIconClasses = classNames([
   "h-16",
   "w-16",
-  "mx-auto",
   "bg-white",
   "rounded-full",
+  "flex",
+  "flex-row",
+  "items-center",
+  "justify-center",
 ]);
 
 export const mobileIconContainerClasses = classNames([
@@ -46,7 +49,10 @@ export const mobileIconContainerClasses = classNames([
 export const mobileIconClasses = classNames([
   "h-12",
   "w-12",
-  "mx-auto",
+  "flex",
+  "flex-row",
+  "items-center",
+  "justify-center",
   "bg-white",
   "rounded-full",
 ]);
