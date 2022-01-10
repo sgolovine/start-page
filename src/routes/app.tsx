@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { BookmarkCard } from "../components/BookmarkCard";
-import { AddBookmarkForm } from "../components/Sidebar/AddBookmarkForm";
 import { useBookmarkForm } from "../hooks/useBookmarkForm";
 import { FormModal } from "../components/Sidebar/FormModal";
 import { Bookmark } from "../model/Bookmark";
@@ -108,7 +107,6 @@ export const AppRoute = () => {
 
         {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
           <>
-            {/* <hr className="my-4" /> */}
             <AllBookmarksForm
               bookmarks={bookmarkContext.state.bookmarks}
               onEditBookmark={handleEdit}
