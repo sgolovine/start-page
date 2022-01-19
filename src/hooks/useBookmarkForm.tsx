@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Bookmark } from "../model/Bookmark";
-import { v4 as uuidv4 } from "uuid";
 import { BookmarkContext } from "../context/BookmarkContext";
 import { getGuid } from "../helpers/getGuid";
 

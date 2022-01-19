@@ -1,11 +1,13 @@
 import classNames from "classnames";
 import { useContext, useEffect, useState } from "react";
 import { BookmarkContext } from "../context/BookmarkContext";
+import { useBookmarkForm } from "../hooks/useBookmarkForm";
 
 const containerClasses = classNames(["flex", "flex-col", "my-2"]);
 
 const labelClasses = classNames([
-  "text-white",
+  "text-gray-900",
+  "dark:text-gray-50",
   "text-sm",
   "italic",
   "font-bold",
@@ -13,8 +15,11 @@ const labelClasses = classNames([
 
 const inputClasses = classNames([
   "border",
-  "border-white",
-  "bg-zinc-800",
+  "dark:border-gray-900",
+  "bg-white",
+  "dark:bg-zinc-900",
+  "text-gray-800",
+  "dark:text-gray-50",
   "p-2",
   "rounded",
   "my-1",
@@ -23,16 +28,20 @@ const inputClasses = classNames([
 
 export const AddBookmarkletRoute: React.FC = ({}) => {
   const { state } = useContext(BookmarkContext);
-  const handleCancel = () => window.close();
 
   const urlSearchParams: { title?: string; url?: string; bookmarkId?: string } =
     Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
-  const [bookmarkName, setBookmarkName] = useState<string>("");
-  const [bookmarkHref, setBookmarkHref] = useState<string>("");
-  const [bookmarkSimpleIconSlug, setBookmarkSimpleIconSlug] =
-    useState<string>("");
-  const [bookmarkUseFavicon, setBookmarkUseFavicon] = useState<boolean>(false);
+  const {
+    form,
+    setName,
+    setUrl,
+    setSiSlug,
+    setUseFavicon,
+    setForm,
+    submitForm,
+    clearForm,
+  } = useBookmarkForm();
 
   const [bookmarkId, setBookmarkId] = useState<string | null>(null);
   const editMode = !!bookmarkId;
@@ -42,10 +51,10 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
       setBookmarkId(urlSearchParams.bookmarkId);
     }
     if (urlSearchParams.title) {
-      setBookmarkName(urlSearchParams.title);
+      setName(urlSearchParams.title);
     }
     if (urlSearchParams.url) {
-      setBookmarkHref(urlSearchParams.url);
+      setName(urlSearchParams.url);
     }
   }, [urlSearchParams]);
 
@@ -57,19 +66,27 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
       const bookmark =
         state.bookmarks[bookmarkIdInStore as keyof typeof state.bookmarks];
       if (bookmark) {
-        setBookmarkName(bookmark.name);
-        setBookmarkHref(bookmark.url);
-        setBookmarkUseFavicon(bookmark.useFavicon);
-        if (bookmark.simpleIconsSlug) {
-          setBookmarkSimpleIconSlug(bookmark.simpleIconsSlug);
-        }
+        setForm(bookmark);
       }
     }
   }, [editMode, bookmarkId]);
 
+  const handleCancel = () => {
+    clearForm();
+    window.close();
+  };
+
+  const handleSubmit = () => {
+    const valid = submitForm();
+    if (valid) {
+      clearForm();
+      window.close();
+    }
+  };
+
   return (
     <div className="px-2">
-      <h1 className="text-3xl font-bold text-white py-4 text-center">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-50 py-4 text-center">
         {editMode ? "Edit Bookmark" : "Add Bookmark"}
       </h1>
       <hr />
@@ -77,8 +94,8 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
         <div className={containerClasses}>
           <label className={labelClasses}>Bookmark Name (required)</label>
           <input
-            value={bookmarkName}
-            onChange={(e) => setBookmarkName(e.target.value)}
+            value={form.name}
+            onChange={(e) => setName(e.target.value)}
             type="text"
             className={inputClasses}
           />
@@ -86,8 +103,8 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
         <div className={containerClasses}>
           <label className={labelClasses}>Bookmark URL (required)</label>
           <input
-            value={bookmarkHref}
-            onChange={(e) => setBookmarkHref(e.target.value)}
+            value={form.url}
+            onChange={(e) => setUrl(e.target.value)}
             type="text"
             className={inputClasses}
           />
@@ -95,8 +112,8 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
         <div className={containerClasses}>
           <label className={labelClasses}>Simple Icon Slug (optional)</label>
           <input
-            value={bookmarkSimpleIconSlug}
-            onChange={(e) => setBookmarkSimpleIconSlug(e.target.value)}
+            value={form.simpleIconsSlug}
+            onChange={(e) => setSiSlug(e.target.value)}
             type="text"
             className={inputClasses}
           />
@@ -107,15 +124,21 @@ export const AddBookmarkletRoute: React.FC = ({}) => {
             <input
               type="checkbox"
               className={inputClasses}
-              checked={bookmarkUseFavicon}
-              onChange={(e) => setBookmarkUseFavicon(e.target.checked)}
+              checked={form.useFavicon}
+              onChange={(e) => setUseFavicon(e.target.checked)}
             />
           </label>
         </div>
       </div>
+      <p className="text-sm dark:text-white">
+        Please refresh your browser to see changes.
+      </p>
       <div className="flex flex-row">
-        <button className="text-green-400 font-bold p-2 my-4">
-          Add Bookmark
+        <button
+          onClick={handleSubmit}
+          className="text-green-400 font-bold p-2 my-4"
+        >
+          {editMode ? "Save Changes" : "Add Bookmark"}
         </button>
         <button
           onClick={handleCancel}

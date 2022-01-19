@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useState } from "react";
+import { openEditor } from "../../helpers/openEditor";
 import { AddIcon } from "../icons/AddIcon";
 import { EditIcon } from "../icons/EditIcon";
 import { GearIcon } from "../icons/GearIcon";
@@ -19,15 +20,7 @@ export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
   };
 
   const handleCreateBookmark = () => {
-    const baseUrl =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/add"
-        : "https://startpage.sunny.gg/add";
-
-    const options =
-      "resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no,height=500,width=500";
-
-    window.open(baseUrl, "_blank", options);
+    openEditor();
   };
 
   return (
