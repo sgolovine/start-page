@@ -1,9 +1,9 @@
-import { BookmarkCardProps } from "./types";
-import { useEffect, useMemo, useState } from "react";
-import { SIMPLE_ICONS_CDN } from "../../constants/cdn";
-import { GlobeIcon } from "../icons/GlobeIcon";
-import iconColors from "../../config/si-color-map.json";
-import { formatURL } from "../../helpers/formatUrl";
+import { BookmarkCardProps } from "./types"
+import { useEffect, useMemo, useState } from "react"
+import { SIMPLE_ICONS_CDN } from "../../constants/cdn"
+import { GlobeIcon } from "../icons/GlobeIcon"
+import iconColors from "../../config/si-color-map.json"
+import { formatURL } from "../../helpers/formatUrl"
 import {
   desktopIconClasses,
   mobileIconClasses,
@@ -11,7 +11,7 @@ import {
   mobileIconContainerClasses,
   showForDesktop,
   showForMobile,
-} from "./classes";
+} from "./classes"
 
 export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   name,
@@ -19,32 +19,32 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   siSlug,
   useFavicon,
 }) => {
-  const [siSlugSVG, setSiSlugSVG] = useState<string | undefined>(undefined);
+  const [siSlugSVG, setSiSlugSVG] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const fetchIcon = async () => {
-      const res = await fetch(`${SIMPLE_ICONS_CDN}/${siSlug}.svg`);
+      const res = await fetch(`${SIMPLE_ICONS_CDN}/${siSlug}.svg`)
       if (res.status !== 404) {
-        const svg = await res.text();
-        setSiSlugSVG(svg);
+        const svg = await res.text()
+        setSiSlugSVG(svg)
       }
-    };
+    }
 
     if (siSlug) {
       try {
-        fetchIcon();
+        fetchIcon()
       } catch {
-        setSiSlugSVG(undefined);
+        setSiSlugSVG(undefined)
       }
     }
-  }, [siSlug]);
+  }, [siSlug])
 
-  const handleClick = () => window.location.assign(url);
+  const handleClick = () => window.location.assign(url)
 
   const renderIcon = () =>
     useMemo(() => {
       if (useFavicon) {
-        const faviconUrl = `${url}/favicon.ico`;
+        const faviconUrl = `${url}/favicon.ico`
         return (
           <>
             <div className={showForDesktop}>
@@ -58,11 +58,11 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
               </div>
             </div>
           </>
-        );
+        )
       }
       if (siSlug && siSlugSVG) {
         const hexColor =
-          iconColors.colorMap[siSlug as keyof typeof iconColors.colorMap];
+          iconColors.colorMap[siSlug as keyof typeof iconColors.colorMap]
         return (
           <>
             <div className={showForDesktop}>
@@ -84,7 +84,7 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
               </div>
             </div>
           </>
-        );
+        )
       }
       return (
         <>
@@ -99,8 +99,8 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
             </div>
           </div>
         </>
-      );
-    }, [siSlugSVG]);
+      )
+    }, [siSlugSVG])
 
   return (
     <>
@@ -141,5 +141,5 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
