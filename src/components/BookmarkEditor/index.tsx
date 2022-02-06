@@ -14,7 +14,7 @@ export const BookmarkEditor = () => {
   })
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  const visibilityClasses = classNames(["absolute", "top-5", "right-5"], {
+  const visibilityClasses = classNames(["absolute"], {
     hidden: !bookmarkFormVisible,
   })
 

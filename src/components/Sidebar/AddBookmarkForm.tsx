@@ -1,9 +1,6 @@
 import classNames from "classnames"
-import { Bookmark } from "../../model/Bookmark"
 import { Checkbox, Input } from "../BookmarkEditor/EditorComponents"
-
-const REFERENCE_DOCUMENT_URL =
-  "https://github.com/simple-icons/simple-icons/blob/HEAD/slugs.md"
+import { TrashIcon } from "../icons/TrashIcon"
 
 interface Props {
   editMode?: boolean
@@ -18,9 +15,9 @@ interface Props {
   onBookmarkURLChange: (newURL: string) => void
   onBookmarkSiSlugChange: (newSiSlug: string) => void
   onBookmarkUseFaviconChange: (newUseFavicon: boolean) => void
-  onSubmit: () => void
   onEdit: () => void
   onDelete: (bookmarkId: string) => void
+  onCancel: () => void
 }
 
 export const AddBookmarkForm: React.FC<Props> = ({
@@ -36,18 +33,32 @@ export const AddBookmarkForm: React.FC<Props> = ({
   onBookmarkURLChange,
   onBookmarkSiSlugChange,
   onBookmarkUseFaviconChange,
-  onSubmit,
   onEdit,
   onDelete,
+  onCancel,
 }) => {
-  const headerText = editMode ? "Edit Bookmark" : "Add Bookmark"
-  const submitText = editMode ? "Save Changes" : "Add Bookmark"
+  const headerText = "Edit Bookmark"
+  const submitText = "Save Changes"
 
   return (
-    <div className="flex flex-col">
-      <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
-        {headerText}
-      </h2>
+    <div
+      className={classNames(
+        {
+          hidden: !editMode,
+        },
+        ["flex", "flex-col"]
+      )}
+    >
+      <div className="flex flex-row items-center justify-between">
+        <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
+          {headerText}
+        </h2>
+        {bookmarkId && (
+          <button className="p-1" onClick={() => onDelete(bookmarkId)}>
+            <TrashIcon className="h-6 w-6 fill-red-500" />
+          </button>
+        )}
+      </div>
 
       <Input
         isRequired
@@ -81,21 +92,22 @@ export const AddBookmarkForm: React.FC<Props> = ({
 
       {/* Submit Button */}
       <div>
-        {editMode && bookmarkId && (
+        {bookmarkId && (
           <button
-            onClick={() => onDelete(bookmarkId)}
+            onClick={onCancel}
             className="p-1 font-bold mx-1 my-2 text-red-600 dark:text-red-400"
           >
-            Delete Bookmark
+            Cancel
           </button>
         )}
         <button
-          onClick={editMode ? onEdit : onSubmit}
+          onClick={onEdit}
           className="p-1 font-bold mx-1 my-2 text-green-700 dark:text-green-400"
         >
           {submitText}
         </button>
       </div>
+      <hr className="my-4" />
     </div>
   )
 }

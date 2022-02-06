@@ -45,16 +45,13 @@ export const MainView = () => {
     }
   }
 
-  const handleSubmit = () => {
-    const valid = submitForm()
-    if (valid) {
-      handleClose()
-      clearForm()
-    }
-  }
-
   const handleClose = () => {
     setFormModalVisible(false)
+    setEditMode(false)
+    clearForm()
+  }
+
+  const handleCancel = () => {
     setEditMode(false)
     clearForm()
   }
@@ -101,24 +98,22 @@ export const MainView = () => {
           onBookmarkURLChange={setUrl}
           onBookmarkSiSlugChange={setSiSlug}
           onBookmarkUseFaviconChange={setUseFavicon}
-          onSubmit={handleSubmit}
           onEdit={handleEditSubmit}
           onDelete={handleDelete}
           formNameError={formNameError}
           formUrlError={formUrlError}
+          onCancel={handleCancel}
         />
 
         {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
           <>
-            <hr className="my-4" />
             <AllBookmarksForm
               bookmarks={bookmarkContext.state.bookmarks}
               onEditBookmark={handleEdit}
             />
+            <hr className="my-4" />
           </>
         )}
-
-        <hr className="my-4" />
 
         <Preferences />
       </FormModal>
