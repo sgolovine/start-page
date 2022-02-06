@@ -1,18 +1,20 @@
-import { useContext, useState } from "react";
-import { BookmarkCard } from "./components/BookmarkCard";
-import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
-import { useBookmarkForm } from "./hooks/useBookmarkForm";
-import { FormModal } from "./components/Sidebar/FormModal";
-import { Bookmark } from "./model/Bookmark";
-import { BookmarkContext } from "./context/BookmarkContext";
-import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm";
-import { Header } from "./components/Header/Header";
-import { Preferences } from "./components/Sidebar/Preferences";
+import { useContext, useState } from "react"
+import { BookmarkCard } from "./components/BookmarkCard"
+import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm"
+import { useBookmarkForm } from "./hooks/useBookmarkForm"
+import { FormModal } from "./components/Sidebar/FormModal"
+import { Bookmark } from "./model/Bookmark"
+import { BookmarkContext } from "./context/BookmarkContext"
+import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm"
+import { Header } from "./components/Header/Header"
+import { Preferences } from "./components/Sidebar/Preferences"
+import { BookmarkEditor } from "./components/BookmarkEditor"
 
 export const MainView = () => {
-  const bookmarkContext = useContext(BookmarkContext);
-  const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0;
-  const [formModalVisible, setFormModalVisible] = useState<boolean>(false);
+  const bookmarkContext = useContext(BookmarkContext)
+  const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0
+  const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
+
   const {
     form,
     setName,
@@ -24,44 +26,44 @@ export const MainView = () => {
     formUrlError,
     setForm,
     clearForm,
-  } = useBookmarkForm();
+  } = useBookmarkForm()
 
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false)
 
   const handleEdit = (bookmark: Bookmark) => {
-    setEditMode(true);
-    setForm(bookmark);
-    setFormModalVisible(true);
-  };
+    setEditMode(true)
+    setForm(bookmark)
+    setFormModalVisible(true)
+  }
 
   const handleEditSubmit = () => {
-    const valid = submitForm();
+    const valid = submitForm()
     if (valid) {
-      setEditMode(false);
-      setFormModalVisible(false);
-      clearForm();
+      setEditMode(false)
+      setFormModalVisible(false)
+      clearForm()
     }
-  };
+  }
 
   const handleSubmit = () => {
-    const valid = submitForm();
+    const valid = submitForm()
     if (valid) {
-      handleClose();
-      clearForm();
+      handleClose()
+      clearForm()
     }
-  };
+  }
 
   const handleClose = () => {
-    setFormModalVisible(false);
-    setEditMode(false);
-    clearForm();
-  };
+    setFormModalVisible(false)
+    setEditMode(false)
+    clearForm()
+  }
 
   const handleDelete = (id: string) => {
-    bookmarkContext.removeBookmark(id);
-    setEditMode(false);
-    setFormModalVisible(false);
-  };
+    bookmarkContext.removeBookmark(id)
+    setEditMode(false)
+    setFormModalVisible(false)
+  }
 
   return (
     <>
@@ -71,7 +73,7 @@ export const MainView = () => {
           {isEmpty ? (
             <p className="text-zinc-900 dark:text-white">No Bookmarks</p>
           ) : (
-            Object.values(bookmarkContext.state.bookmarks).map((item) => {
+            Object.values(bookmarkContext.state.bookmarks).map(item => {
               return (
                 <div className="m-2" key={item.id}>
                   <BookmarkCard
@@ -81,7 +83,7 @@ export const MainView = () => {
                     useFavicon={item.useFavicon}
                   />
                 </div>
-              );
+              )
             })
           )}
         </div>
@@ -121,5 +123,5 @@ export const MainView = () => {
         <Preferences />
       </FormModal>
     </>
-  );
-};
+  )
+}

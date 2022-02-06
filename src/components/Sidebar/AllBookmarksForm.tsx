@@ -1,29 +1,27 @@
-import classNames from "classnames";
-import React from "react";
-import { Bookmark } from "../../model/Bookmark";
-import { EditIcon } from "../icons/EditIcon";
-import { GlobeIcon } from "../icons/GlobeIcon";
+import classNames from "classnames"
+import React from "react"
+import { Bookmark } from "../../model/Bookmark"
+import { EditIcon } from "../icons/EditIcon"
+import { GlobeIcon } from "../icons/GlobeIcon"
 
 interface Props {
   bookmarks: {
-    [id: string]: Bookmark;
-  };
-  onEditBookmark: (bookmark: Bookmark) => void;
+    [id: string]: Bookmark
+  }
+  onEditBookmark: (bookmark: Bookmark) => void
 }
 
 export const AllBookmarksForm: React.FC<Props> = ({
   bookmarks,
   onEditBookmark,
 }) => {
-  const faviconClasses = classNames(["h-6", "w-6", "bg-white", "rounded-full"]);
-
   return (
     <div>
       <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
         All Bookmarks
       </h2>
       <div className="m-2">
-        {Object.values(bookmarks).map((bookmark) => {
+        {Object.values(bookmarks).map(bookmark => {
           return (
             <div
               key={bookmark.id}
@@ -46,9 +44,9 @@ export const AllBookmarksForm: React.FC<Props> = ({
                 </button>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
-};
+  )
+}
