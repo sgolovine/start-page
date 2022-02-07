@@ -1,13 +1,40 @@
 import classNames from "classnames"
 import { useEffect, useRef, useState } from "react"
-import { useBookmarkForm } from "../../hooks/useBookmarkForm"
+import { Bookmark } from "../../model/Bookmark"
 import { EditIcon } from "../icons/EditIcon"
 import { BookmarkEditorView } from "./BookmarkEditorView"
 
-export const BookmarkEditor = () => {
-  const bookmarkForm = useBookmarkForm()
+interface Props {
+  editMode: boolean
+  visible: boolean
+  form: Partial<Bookmark>
+  nameError: boolean
+  urlError: boolean
+  setVisible: (newVisible: boolean) => void
+  submitForm: () => void
+  clearForm: () => void
+  setName: (value: string) => void
+  setUrl: (value: string) => void
+  setSiSlug: (value: string) => void
+  setUseFavicon: (value: boolean) => void
+  unsetEditMode: () => void
+}
 
-  const [bookmarkFormVisible, setBookmarkFormVisible] = useState<boolean>(false)
+export const BookmarkEditor: React.FC<Props> = ({
+  editMode,
+  visible,
+  setVisible,
+  form,
+  nameError,
+  urlError,
+  submitForm,
+  clearForm,
+  setName,
+  setUrl,
+  setSiSlug,
+  setUseFavicon,
+  unsetEditMode,
+}) => {
   const [position, setPosition] = useState({
     top: 0,
     left: 0,
@@ -15,7 +42,7 @@ export const BookmarkEditor = () => {
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   const visibilityClasses = classNames(["absolute"], {
-    hidden: !bookmarkFormVisible,
+    hidden: !visible,
   })
 
   useEffect(() => {
@@ -51,28 +78,36 @@ export const BookmarkEditor = () => {
   }, [buttonRef])
 
   const handleCancel = () => {
-    bookmarkForm.clearForm()
-    setBookmarkFormVisible(false)
+    clearForm()
+    unsetEditMode()
+    setVisible(false)
   }
 
   const handleSubmit = () => {
-    bookmarkForm.submitForm()
-    bookmarkForm.clearForm()
-    setBookmarkFormVisible(false)
+    submitForm()
+    clearForm()
+    unsetEditMode()
+    setVisible(false)
+  }
+
+  const toggle = () => {
+    if (visible) {
+      clearForm()
+      unsetEditMode()
+      setVisible(false)
+      return
+    }
+    setVisible(true)
   }
 
   const buttonClasses = classNames(["p-2", "mr-4", "rounded-full", "border"], {
-    "border-transparent": !bookmarkFormVisible,
-    "border-white": bookmarkFormVisible,
+    "border-transparent": !visible,
+    "border-white": visible,
   })
 
   return (
     <>
-      <button
-        ref={buttonRef}
-        className={buttonClasses}
-        onClick={() => setBookmarkFormVisible(prev => !prev)}
-      >
+      <button ref={buttonRef} className={buttonClasses} onClick={toggle}>
         <EditIcon />
       </button>
       <div
@@ -81,24 +116,24 @@ export const BookmarkEditor = () => {
       >
         <div className="w-80 p-4 border border-gray-200 dark:border-gray-600 bg-slate-50 dark:bg-zinc-800 rounded-lg shadow-lg">
           <BookmarkEditorView
-            headerLabel={"Create Bookmark"}
+            editMode={editMode}
             name={{
-              value: bookmarkForm.form.name ?? "",
-              onChange: bookmarkForm.setName,
-              error: bookmarkForm.formNameError,
+              value: form.name ?? "",
+              onChange: setName,
+              error: nameError,
             }}
             url={{
-              value: bookmarkForm.form.url ?? "",
-              onChange: bookmarkForm.setUrl,
-              error: bookmarkForm.formUrlError,
+              value: form.url ?? "",
+              onChange: setUrl,
+              error: urlError,
             }}
             siSlug={{
-              value: bookmarkForm.form.simpleIconsSlug ?? "",
-              onChange: bookmarkForm.setSiSlug,
+              value: form.simpleIconsSlug ?? "",
+              onChange: setSiSlug,
             }}
             useFavicon={{
-              value: bookmarkForm.form.useFavicon ?? false,
-              onChange: bookmarkForm.setUseFavicon,
+              value: form.useFavicon ?? false,
+              onChange: setUseFavicon,
             }}
             onSubmit={handleSubmit}
             onCancel={handleCancel}

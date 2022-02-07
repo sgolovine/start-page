@@ -1,12 +1,16 @@
-import React, { useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { BookmarkEditor } from "../BookmarkEditor"
 import { GearIcon } from "../icons/GearIcon"
 
 interface Props {
+  renderBookmarkEditor: () => ReactNode
   onSidebarButtonClick: () => void
 }
 
-export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
+export const Header: React.FC<Props> = ({
+  onSidebarButtonClick,
+  renderBookmarkEditor,
+}) => {
   const [webSearchValue, setWebSearchValue] = useState<string>("")
 
   // This controls searching, detects when "Enter" is pressed
@@ -29,7 +33,7 @@ export const Header: React.FC<Props> = ({ onSidebarButtonClick }) => {
           }}
         />
       </div>
-      <BookmarkEditor />
+      {renderBookmarkEditor()}
       <button onClick={() => onSidebarButtonClick()}>
         <GearIcon />
       </button>

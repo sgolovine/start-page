@@ -1,5 +1,4 @@
 import { useContext, useState } from "react"
-import { BookmarkCard } from "./components/BookmarkCard"
 import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm"
 import { useBookmarkForm } from "./hooks/useBookmarkForm"
 import { FormModal } from "./components/Sidebar/FormModal"
@@ -9,12 +8,20 @@ import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm"
 import { Header } from "./components/Header/Header"
 import { Preferences } from "./components/Sidebar/Preferences"
 import { BookmarkEditor } from "./components/BookmarkEditor"
-import { BookmarkCard2 } from "./components/BookmarkCard2"
+import { BookmarkCard } from "./components/BookmarkCard"
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext)
   const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0
-  const [formModalVisible, setFormModalVisible] = useState<boolean>(false)
+
+  // Sidebar
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false)
+
+  // Bookmark Editor
+  const [bookmarkEditorVisible, setBookmarkEditorVisible] =
+    useState<boolean>(false)
+
+  const [editMode, setEditMode] = useState<boolean>(false)
 
   const {
     form,
@@ -29,25 +36,24 @@ export const MainView = () => {
     clearForm,
   } = useBookmarkForm()
 
-  const [editMode, setEditMode] = useState<boolean>(false)
-
   const handleEdit = (bookmark: Bookmark) => {
     setEditMode(true)
     setForm(bookmark)
-    setFormModalVisible(true)
+    setBookmarkEditorVisible(true)
+    // setSidebarVisible(true)
   }
 
   const handleEditSubmit = () => {
     const valid = submitForm()
     if (valid) {
       setEditMode(false)
-      setFormModalVisible(false)
+      setSidebarVisible(false)
       clearForm()
     }
   }
 
   const handleClose = () => {
-    setFormModalVisible(false)
+    setSidebarVisible(false)
     setEditMode(false)
     clearForm()
   }
@@ -60,12 +66,35 @@ export const MainView = () => {
   const handleDelete = (id: string) => {
     bookmarkContext.removeBookmark(id)
     setEditMode(false)
-    setFormModalVisible(false)
+    setSidebarVisible(false)
+  }
+
+  const renderBookmarkEditor = () => {
+    return (
+      <BookmarkEditor
+        editMode={editMode}
+        visible={bookmarkEditorVisible}
+        form={form}
+        nameError={formNameError}
+        urlError={formUrlError}
+        setVisible={(newState: boolean) => setBookmarkEditorVisible(newState)}
+        submitForm={submitForm}
+        clearForm={clearForm}
+        setName={setName}
+        setUrl={setUrl}
+        setSiSlug={setSiSlug}
+        setUseFavicon={setUseFavicon}
+        unsetEditMode={() => setEditMode(false)}
+      />
+    )
   }
 
   return (
     <>
-      <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
+      <Header
+        renderBookmarkEditor={renderBookmarkEditor}
+        onSidebarButtonClick={() => setSidebarVisible(prev => !prev)}
+      />
       <div className="mt-16 p-4 overflow-hidden">
         <div className="flex flex-row flex-wrap justify-evenly sm:justify-start max-w-5xl">
           {isEmpty ? (
@@ -74,7 +103,7 @@ export const MainView = () => {
             Object.values(bookmarkContext.state.bookmarks).map(item => {
               return (
                 <div className="m-2" key={item.id}>
-                  <BookmarkCard2
+                  <BookmarkCard
                     id={item.id}
                     name={item.name}
                     url={item.url}
@@ -89,7 +118,7 @@ export const MainView = () => {
         </div>
       </div>
 
-      <FormModal visible={formModalVisible} onClose={handleClose}>
+      <FormModal visible={sidebarVisible} onClose={handleClose}>
         <AddBookmarkForm
           editMode={editMode}
           bookmarkId={form.id}

@@ -1,7 +1,7 @@
 import { Checkbox, Input } from "./EditorComponents"
 
 interface Props {
-  headerLabel: string
+  editMode: boolean
   name: {
     value: string
     onChange: (newName: string) => void
@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const BookmarkEditorView: React.FC<Props> = ({
-  headerLabel,
+  editMode,
   name,
   url,
   siSlug,
@@ -36,7 +36,7 @@ export const BookmarkEditorView: React.FC<Props> = ({
   return (
     <div className="flex flex-col h-full">
       <h2 className="pb-2 text-xl font-bold text-zinc-900 dark:text-white">
-        {headerLabel}
+        {editMode ? "Edit Bookmark" : "Create Bookmark"}
       </h2>
       <div className="grow">
         <Input
@@ -71,7 +71,7 @@ export const BookmarkEditorView: React.FC<Props> = ({
           onClick={onSubmit}
           className="border-2 border-green-500 text-zinc-900 dark:text-white font-bold w-32 py-2 rounded-sm"
         >
-          Create
+          {editMode ? "Save" : "Create"}
         </button>
         <button
           onClick={onCancel}
