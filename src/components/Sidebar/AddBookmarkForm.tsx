@@ -1,25 +1,23 @@
-import classNames from "classnames";
-import { Bookmark } from "../../model/Bookmark";
-
-const REFERENCE_DOCUMENT_URL =
-  "https://github.com/simple-icons/simple-icons/blob/HEAD/slugs.md";
+import classNames from "classnames"
+import { Checkbox, Input } from "../BookmarkEditor/EditorComponents"
+import { TrashIcon } from "../icons/TrashIcon"
 
 interface Props {
-  editMode?: boolean;
-  bookmarkId?: string;
-  bookmarkNameValue: string;
-  bookmarkURLValue: string;
-  bookmarkSiSlugValue: string;
-  bookmarkUseFaviconValue: boolean;
-  formNameError: boolean;
-  formUrlError: boolean;
-  onBookmarkNameChange: (newName: string) => void;
-  onBookmarkURLChange: (newURL: string) => void;
-  onBookmarkSiSlugChange: (newSiSlug: string) => void;
-  onBookmarkUseFaviconChange: (newUseFavicon: boolean) => void;
-  onSubmit: () => void;
-  onEdit: () => void;
-  onDelete: (bookmarkId: string) => void;
+  editMode?: boolean
+  bookmarkId?: string
+  bookmarkNameValue: string
+  bookmarkURLValue: string
+  bookmarkSiSlugValue: string
+  bookmarkUseFaviconValue: boolean
+  formNameError: boolean
+  formUrlError: boolean
+  onBookmarkNameChange: (newName: string) => void
+  onBookmarkURLChange: (newURL: string) => void
+  onBookmarkSiSlugChange: (newSiSlug: string) => void
+  onBookmarkUseFaviconChange: (newUseFavicon: boolean) => void
+  onEdit: () => void
+  onDelete: (bookmarkId: string) => void
+  onCancel: () => void
 }
 
 export const AddBookmarkForm: React.FC<Props> = ({
@@ -35,138 +33,81 @@ export const AddBookmarkForm: React.FC<Props> = ({
   onBookmarkURLChange,
   onBookmarkSiSlugChange,
   onBookmarkUseFaviconChange,
-  onSubmit,
   onEdit,
   onDelete,
+  onCancel,
 }) => {
-  const containerStyle = classNames(["flex", "flex-col", "my-2"]);
-  const labelStyle = classNames([
-    "mx-1",
-    "text-sm",
-    "italic",
-    "font-bold",
-    "text-zinc-900",
-    "dark:text-gray-100",
-  ]);
-  const inputStyle = classNames([
-    "my-2",
-    "mx-1",
-    "p-2",
-    "rounded-md",
-    "border",
-    "dark:border-zinc-800",
-    "bg-white",
-    "dark:bg-zinc-700",
-    "text-zinc-900",
-    "dark:text-white",
-  ]);
-  const helperLabelStyle = classNames([
-    "mx-2",
-    "text-xs",
-    "italic",
-    "text-zinc-900",
-    "dark:text-white",
-  ]);
-
-  const formNameClasses = classNames(inputStyle, {
-    "border-red-500": formNameError,
-  });
-
-  const formUrlClasses = classNames(inputStyle, {
-    "border-red-500": formUrlError,
-  });
-
-  const headerText = editMode ? "Edit Bookmark" : "Add Bookmark";
-  const submitText = editMode ? "Save Changes" : "Add Bookmark";
+  const headerText = "Edit Bookmark"
+  const submitText = "Save Changes"
 
   return (
-    <div className="flex flex-col">
-      <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
-        {headerText}
-      </h2>
-      {/* Bookmark Name */}
-      <div className={containerStyle}>
-        <label className={labelStyle}>Bookmark Name (Required)</label>
-        <input
-          value={bookmarkNameValue}
-          onChange={(e) => onBookmarkNameChange(e.target.value)}
-          className={formNameClasses}
-          placeholder="Bookmark Name"
-          type="text"
-        />
+    <div
+      className={classNames(
+        {
+          hidden: !editMode,
+        },
+        ["flex", "flex-col"]
+      )}
+    >
+      <div className="flex flex-row items-center justify-between">
+        <h2 className="mx-1 text-xl font-bold text-zinc-900 dark:text-white">
+          {headerText}
+        </h2>
+        {bookmarkId && (
+          <button className="p-1" onClick={() => onDelete(bookmarkId)}>
+            <TrashIcon className="h-6 w-6 fill-red-500" />
+          </button>
+        )}
       </div>
 
-      {/* Bookmark URL */}
-      <div className={containerStyle}>
-        <label className={labelStyle}>Bookmark URL (Required)</label>
-        <input
-          value={bookmarkURLValue}
-          onChange={(e) => onBookmarkURLChange(e.target.value)}
-          className={formUrlClasses}
-          placeholder="Bookmark URL"
-          type="url"
-        />
-      </div>
+      <Input
+        isRequired
+        label="Bookmark Name"
+        value={bookmarkNameValue}
+        onChange={newText => onBookmarkNameChange(newText)}
+        error={formNameError}
+        errorMessage="Please enter a name"
+      />
 
-      {/* Simple Icons Slug */}
-      <div className={containerStyle}>
-        <label className={labelStyle}>Simple Icon Slug (Optional)</label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          value={bookmarkSiSlugValue}
-          onChange={(e) => onBookmarkSiSlugChange(e.target.value)}
-          className={inputStyle}
-          placeholder="Simple Icons Slug"
-        />
-        <p className={helperLabelStyle}>
-          Refer to this{" "}
-          <a
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-            href={REFERENCE_DOCUMENT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            guide
-          </a>{" "}
-          for all slugs
-        </p>
-      </div>
+      <Input
+        isRequired
+        label="Bookmark URL"
+        value={bookmarkURLValue}
+        onChange={newText => onBookmarkURLChange(newText)}
+        error={formUrlError}
+        errorMessage="Please enter a valid URL"
+      />
 
-      {/* Use Favicons */}
-      <div className={containerStyle}>
-        <label className="mx-1 font-bold text-zinc-900 dark:text-white">
-          Use Favicon
-          <input
-            checked={bookmarkUseFaviconValue}
-            onChange={(e) => onBookmarkUseFaviconChange(e.target.checked)}
-            className="ml-2"
-            type="checkbox"
-          />
-        </label>
-        <p className={helperLabelStyle}>
-          Overrides Simple Icons. May not always work properly.
-        </p>
-      </div>
+      <Input
+        label="Simple Icon Slug"
+        value={bookmarkSiSlugValue}
+        onChange={newText => onBookmarkSiSlugChange(newText)}
+      />
+
+      <Checkbox
+        label="Use Favicon"
+        value={bookmarkUseFaviconValue}
+        onChange={newValue => onBookmarkUseFaviconChange(newValue)}
+      />
 
       {/* Submit Button */}
       <div>
-        {editMode && bookmarkId && (
+        {bookmarkId && (
           <button
-            onClick={() => onDelete(bookmarkId)}
+            onClick={onCancel}
             className="p-1 font-bold mx-1 my-2 text-red-600 dark:text-red-400"
           >
-            Delete Bookmark
+            Cancel
           </button>
         )}
         <button
-          onClick={editMode ? onEdit : onSubmit}
+          onClick={onEdit}
           className="p-1 font-bold mx-1 my-2 text-green-700 dark:text-green-400"
         >
           {submitText}
         </button>
       </div>
+      <hr className="my-4" />
     </div>
-  );
-};
+  )
+}

@@ -1,18 +1,28 @@
-import { useContext, useState } from "react";
-import { BookmarkCard } from "./components/BookmarkCard";
-import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm";
-import { useBookmarkForm } from "./hooks/useBookmarkForm";
-import { FormModal } from "./components/Sidebar/FormModal";
-import { Bookmark } from "./model/Bookmark";
-import { BookmarkContext } from "./context/BookmarkContext";
-import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm";
-import { Header } from "./components/Header/Header";
-import { Preferences } from "./components/Sidebar/Preferences";
+import { useContext, useState } from "react"
+import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm"
+import { useBookmarkForm } from "./hooks/useBookmarkForm"
+import { FormModal } from "./components/Sidebar/FormModal"
+import { Bookmark } from "./model/Bookmark"
+import { BookmarkContext } from "./context/BookmarkContext"
+import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm"
+import { Header } from "./components/Header/Header"
+import { Preferences } from "./components/Sidebar/Preferences"
+import { BookmarkEditor } from "./components/BookmarkEditor"
+import { BookmarkCard } from "./components/BookmarkCard"
 
 export const MainView = () => {
-  const bookmarkContext = useContext(BookmarkContext);
-  const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0;
-  const [formModalVisible, setFormModalVisible] = useState<boolean>(false);
+  const bookmarkContext = useContext(BookmarkContext)
+  const isEmpty = Object.keys(bookmarkContext.state.bookmarks).length === 0
+
+  // Sidebar
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(false)
+
+  // Bookmark Editor
+  const [bookmarkEditorVisible, setBookmarkEditorVisible] =
+    useState<boolean>(false)
+
+  const [editMode, setEditMode] = useState<boolean>(false)
+
   const {
     form,
     setName,
@@ -24,70 +34,91 @@ export const MainView = () => {
     formUrlError,
     setForm,
     clearForm,
-  } = useBookmarkForm();
-
-  const [editMode, setEditMode] = useState<boolean>(false);
+  } = useBookmarkForm()
 
   const handleEdit = (bookmark: Bookmark) => {
-    setEditMode(true);
-    setForm(bookmark);
-    setFormModalVisible(true);
-  };
+    setEditMode(true)
+    setForm(bookmark)
+    setBookmarkEditorVisible(true)
+    // setSidebarVisible(true)
+  }
 
   const handleEditSubmit = () => {
-    const valid = submitForm();
+    const valid = submitForm()
     if (valid) {
-      setEditMode(false);
-      setFormModalVisible(false);
-      clearForm();
+      setEditMode(false)
+      setSidebarVisible(false)
+      clearForm()
     }
-  };
-
-  const handleSubmit = () => {
-    const valid = submitForm();
-    if (valid) {
-      handleClose();
-      clearForm();
-    }
-  };
+  }
 
   const handleClose = () => {
-    setFormModalVisible(false);
-    setEditMode(false);
-    clearForm();
-  };
+    setSidebarVisible(false)
+    setEditMode(false)
+    clearForm()
+  }
+
+  const handleCancel = () => {
+    setEditMode(false)
+    clearForm()
+  }
 
   const handleDelete = (id: string) => {
-    bookmarkContext.removeBookmark(id);
-    setEditMode(false);
-    setFormModalVisible(false);
-  };
+    bookmarkContext.removeBookmark(id)
+    setEditMode(false)
+    setSidebarVisible(false)
+  }
+
+  const renderBookmarkEditor = () => {
+    return (
+      <BookmarkEditor
+        editMode={editMode}
+        visible={bookmarkEditorVisible}
+        form={form}
+        nameError={formNameError}
+        urlError={formUrlError}
+        setVisible={(newState: boolean) => setBookmarkEditorVisible(newState)}
+        submitForm={submitForm}
+        clearForm={clearForm}
+        setName={setName}
+        setUrl={setUrl}
+        setSiSlug={setSiSlug}
+        setUseFavicon={setUseFavicon}
+        unsetEditMode={() => setEditMode(false)}
+      />
+    )
+  }
 
   return (
     <>
-      <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
-      <div className="mt-16 p-4">
+      <Header
+        renderBookmarkEditor={renderBookmarkEditor}
+        onSidebarButtonClick={() => setSidebarVisible(prev => !prev)}
+      />
+      <div className="mt-16 p-4 overflow-hidden">
         <div className="flex flex-row flex-wrap justify-evenly sm:justify-start max-w-5xl">
           {isEmpty ? (
             <p className="text-zinc-900 dark:text-white">No Bookmarks</p>
           ) : (
-            Object.values(bookmarkContext.state.bookmarks).map((item) => {
+            Object.values(bookmarkContext.state.bookmarks).map(item => {
               return (
                 <div className="m-2" key={item.id}>
                   <BookmarkCard
+                    id={item.id}
                     name={item.name}
                     url={item.url}
-                    siSlug={item.simpleIconsSlug}
+                    simpleIconsSlug={item.simpleIconsSlug}
                     useFavicon={item.useFavicon}
+                    onEdit={bookmark => handleEdit(bookmark)}
                   />
                 </div>
-              );
+              )
             })
           )}
         </div>
       </div>
 
-      <FormModal visible={formModalVisible} onClose={handleClose}>
+      <FormModal visible={sidebarVisible} onClose={handleClose}>
         <AddBookmarkForm
           editMode={editMode}
           bookmarkId={form.id}
@@ -99,27 +130,25 @@ export const MainView = () => {
           onBookmarkURLChange={setUrl}
           onBookmarkSiSlugChange={setSiSlug}
           onBookmarkUseFaviconChange={setUseFavicon}
-          onSubmit={handleSubmit}
           onEdit={handleEditSubmit}
           onDelete={handleDelete}
           formNameError={formNameError}
           formUrlError={formUrlError}
+          onCancel={handleCancel}
         />
 
         {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
           <>
-            <hr className="my-4" />
             <AllBookmarksForm
               bookmarks={bookmarkContext.state.bookmarks}
               onEditBookmark={handleEdit}
             />
+            <hr className="my-4" />
           </>
         )}
-
-        <hr className="my-4" />
 
         <Preferences />
       </FormModal>
     </>
-  );
-};
+  )
+}
