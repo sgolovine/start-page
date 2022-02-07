@@ -1,10 +1,8 @@
 import { useContext, useState } from "react"
-import { AddBookmarkForm } from "./components/Sidebar/AddBookmarkForm"
 import { useBookmarkForm } from "./hooks/useBookmarkForm"
 import { FormModal } from "./components/Sidebar/FormModal"
 import { Bookmark } from "./model/Bookmark"
 import { BookmarkContext } from "./context/BookmarkContext"
-import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm"
 import { Header } from "./components/Header/Header"
 import { Preferences } from "./components/Sidebar/Preferences"
 import { BookmarkEditor } from "./components/BookmarkEditor"
@@ -119,34 +117,6 @@ export const MainView = () => {
       </div>
 
       <FormModal visible={sidebarVisible} onClose={handleClose}>
-        <AddBookmarkForm
-          editMode={editMode}
-          bookmarkId={form.id}
-          bookmarkNameValue={form.name ?? ""}
-          bookmarkURLValue={form.url ?? ""}
-          bookmarkSiSlugValue={form.simpleIconsSlug ?? ""}
-          bookmarkUseFaviconValue={form.useFavicon ?? false}
-          onBookmarkNameChange={setName}
-          onBookmarkURLChange={setUrl}
-          onBookmarkSiSlugChange={setSiSlug}
-          onBookmarkUseFaviconChange={setUseFavicon}
-          onEdit={handleEditSubmit}
-          onDelete={handleDelete}
-          formNameError={formNameError}
-          formUrlError={formUrlError}
-          onCancel={handleCancel}
-        />
-
-        {Object.keys(bookmarkContext.state.bookmarks).length > 0 && (
-          <>
-            <AllBookmarksForm
-              bookmarks={bookmarkContext.state.bookmarks}
-              onEditBookmark={handleEdit}
-            />
-            <hr className="my-4" />
-          </>
-        )}
-
         <Preferences />
       </FormModal>
     </>

@@ -4,6 +4,7 @@ import { SIMPLE_ICONS_CDN } from "../../constants/cdn"
 import { Bookmark } from "../../model/Bookmark"
 import { EditIcon } from "../icons/EditIcon"
 import { GlobeIcon } from "../icons/GlobeIcon"
+import Pressure from "pressure"
 
 interface Props extends Bookmark {
   onEdit?: (bookmark: Bookmark) => void
@@ -17,6 +18,7 @@ export const BookmarkCard = ({
   onEdit,
   id,
 }: Props) => {
+  const cardElementId = `bk-card-${id}`
   const [siSlugSVG, setSiSlugSVG] = useState<string | undefined>(undefined)
   const [isHovering, setIsHovering] = useState<boolean>(false)
 
@@ -37,6 +39,24 @@ export const BookmarkCard = ({
       }
     }
   }, [simpleIconsSlug])
+
+  useEffect(() => {
+    Pressure.set(
+      `#${cardElementId}`,
+      {
+        startDeepPress: () =>
+          onEdit &&
+          onEdit({
+            id,
+            name,
+            url,
+            useFavicon,
+            simpleIconsSlug,
+          }),
+      },
+      { only: "touch", preventSelect: true }
+    )
+  }, [])
 
   const handleClick = () => window.location.assign(url)
 
@@ -64,7 +84,7 @@ export const BookmarkCard = ({
 
   return (
     <div
-      id="bk-card"
+      id={cardElementId}
       className="z-0 h-28 w-28 md:h-44 md:w-44 border border-neutral-700 hover:ring-2 ring-blue-500 dark:ring-green-400 active:ring-red-500 rounded-md transition-shadow duration-100 ease-linear"
       onClick={handleClick}
       onMouseEnter={() => setIsHovering(true)}
