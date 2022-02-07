@@ -9,6 +9,7 @@ import { AllBookmarksForm } from "./components/Sidebar/AllBookmarksForm"
 import { Header } from "./components/Header/Header"
 import { Preferences } from "./components/Sidebar/Preferences"
 import { BookmarkEditor } from "./components/BookmarkEditor"
+import { BookmarkCard2 } from "./components/BookmarkCard2"
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext)
@@ -65,7 +66,7 @@ export const MainView = () => {
   return (
     <>
       <Header onSidebarButtonClick={() => setFormModalVisible(true)} />
-      <div className="mt-16 p-4">
+      <div className="mt-16 p-4 overflow-hidden">
         <div className="flex flex-row flex-wrap justify-evenly sm:justify-start max-w-5xl">
           {isEmpty ? (
             <p className="text-zinc-900 dark:text-white">No Bookmarks</p>
@@ -73,11 +74,13 @@ export const MainView = () => {
             Object.values(bookmarkContext.state.bookmarks).map(item => {
               return (
                 <div className="m-2" key={item.id}>
-                  <BookmarkCard
+                  <BookmarkCard2
+                    id={item.id}
                     name={item.name}
                     url={item.url}
-                    siSlug={item.simpleIconsSlug}
+                    simpleIconsSlug={item.simpleIconsSlug}
                     useFavicon={item.useFavicon}
+                    onEdit={bookmark => handleEdit(bookmark)}
                   />
                 </div>
               )
