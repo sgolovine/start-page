@@ -85,7 +85,7 @@ export const BookmarkCard = ({
   return (
     <div
       id={cardElementId}
-      className="z-0 h-28 w-28 md:h-44 md:w-44 border border-neutral-700 hover:ring-2 ring-blue-500 dark:ring-green-400 active:ring-red-500 rounded-md transition-shadow duration-100 ease-linear"
+      className="z-0 h-28 w-28 md:h-44 md:w-44 border border-neutral-700 hover:ring-2 ring-blue-500 rounded-md transition-shadow duration-100 ease-linear"
       onClick={handleClick}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

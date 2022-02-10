@@ -1,13 +1,13 @@
-import classNames from "classnames";
-import { CloseIcon } from "../icons/CloseIcon";
+import classNames from "classnames"
+import { CloseIcon } from "../icons/CloseIcon"
 
 interface Props {
-  visible?: boolean;
-  children: React.ReactNode;
-  onClose: () => void;
+  visible?: boolean
+  children: React.ReactNode
+  onClose: () => void
 }
 
-export const FormModal: React.FC<Props> = ({ visible, children, onClose }) => {
+export const Modal: React.FC<Props> = ({ visible, children, onClose }) => {
   const classes = classNames(
     {
       fixed: visible,
@@ -15,7 +15,7 @@ export const FormModal: React.FC<Props> = ({ visible, children, onClose }) => {
     },
     ["right-0", "top-0", "bottom-0", "bg-white", "dark:bg-zinc-800", "shadow"],
     ["w-full", "lg:w-96"]
-  );
+  )
 
   return (
     <div className={classes}>
@@ -39,5 +39,5 @@ export const FormModal: React.FC<Props> = ({ visible, children, onClose }) => {
         <div className="h-16" />
       </div>
     </div>
-  );
-};
+  )
+}

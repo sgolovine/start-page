@@ -1,12 +1,11 @@
 import { useContext, useState } from "react"
 import { useBookmarkForm } from "./hooks/useBookmarkForm"
-import { FormModal } from "./components/Sidebar/FormModal"
 import { Bookmark } from "./model/Bookmark"
 import { BookmarkContext } from "./context/BookmarkContext"
 import { Header } from "./components/Header/Header"
-import { Preferences } from "./components/Sidebar/Preferences"
 import { BookmarkEditor } from "./components/BookmarkEditor"
 import { BookmarkCard } from "./components/BookmarkCard"
+import Sidebar from "./components/Sidebar"
 
 export const MainView = () => {
   const bookmarkContext = useContext(BookmarkContext)
@@ -116,9 +115,7 @@ export const MainView = () => {
         </div>
       </div>
 
-      <FormModal visible={sidebarVisible} onClose={handleClose}>
-        <Preferences />
-      </FormModal>
+      <Sidebar visible={sidebarVisible} onClose={handleClose} />
     </>
   )
 }
