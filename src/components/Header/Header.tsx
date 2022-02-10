@@ -1,13 +1,16 @@
 import React, { ReactNode, useState } from "react"
 import { BookmarkEditor } from "../BookmarkEditor"
+import { IconButton } from "../common/IconButton"
 import { GearIcon } from "../icons/GearIcon"
 
 interface Props {
+  sidebarOpen: boolean
   renderBookmarkEditor: () => ReactNode
   onSidebarButtonClick: () => void
 }
 
 export const Header: React.FC<Props> = ({
+  sidebarOpen,
   onSidebarButtonClick,
   renderBookmarkEditor,
 }) => {
@@ -34,9 +37,12 @@ export const Header: React.FC<Props> = ({
         />
       </div>
       {renderBookmarkEditor()}
-      <button onClick={() => onSidebarButtonClick()}>
-        <GearIcon />
-      </button>
+      <IconButton
+        leftMargin
+        active={sidebarOpen}
+        Icon={<GearIcon />}
+        onClick={() => onSidebarButtonClick()}
+      />
     </div>
   )
 }

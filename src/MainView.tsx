@@ -89,6 +89,7 @@ export const MainView = () => {
   return (
     <>
       <Header
+        sidebarOpen={sidebarVisible}
         renderBookmarkEditor={renderBookmarkEditor}
         onSidebarButtonClick={() => setSidebarVisible(prev => !prev)}
       />

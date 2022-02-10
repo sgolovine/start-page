@@ -1,6 +1,7 @@
 import classNames from "classnames"
 import { useEffect, useRef, useState } from "react"
 import { Bookmark } from "../../model/Bookmark"
+import { IconButton } from "../common/IconButton"
 import { EditIcon } from "../icons/EditIcon"
 import { BookmarkEditorView } from "./BookmarkEditorView"
 
@@ -39,7 +40,7 @@ export const BookmarkEditor: React.FC<Props> = ({
     top: 0,
     left: 0,
   })
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLDivElement>(null)
 
   const visibilityClasses = classNames(["absolute"], {
     hidden: !visible,
@@ -100,16 +101,11 @@ export const BookmarkEditor: React.FC<Props> = ({
     setVisible(true)
   }
 
-  const buttonClasses = classNames(["p-2", "mr-4", "rounded-full", "border"], {
-    "border-transparent": !visible,
-    "border-white": visible,
-  })
-
   return (
     <>
-      <button ref={buttonRef} className={buttonClasses} onClick={toggle}>
-        <EditIcon />
-      </button>
+      <div ref={buttonRef}>
+        <IconButton active={visible} onClick={toggle} Icon={<EditIcon />} />
+      </div>
       <div
         style={{ top: position.top, left: position.left }}
         className={visibilityClasses}
