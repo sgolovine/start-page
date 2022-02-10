@@ -1,10 +1,10 @@
 import classNames from "classnames"
-import { ReactNode, RefObject } from "react"
+import { ReactNode } from "react"
 
 interface Props {
   Icon: ReactNode
   onClick: () => void
-  active: boolean
+  active?: boolean
   leftMargin?: boolean
   rightMargin?: boolean
 }
@@ -12,7 +12,7 @@ interface Props {
 export const IconButton: React.FC<Props> = ({
   Icon,
   onClick,
-  active,
+  active = false,
   leftMargin = false,
   rightMargin = false,
 }) => {

@@ -1,4 +1,7 @@
-import { Checkbox, Input } from "./EditorComponents"
+import { RefObject, useEffect, useRef, useState } from "react"
+import { IconButton } from "../common/IconButton"
+import { CloseIcon } from "../icons/CloseIcon"
+import { Checkbox, Input, SearchItem } from "./EditorComponents"
 
 interface Props {
   editMode: boolean
@@ -33,6 +36,37 @@ export const BookmarkEditorView: React.FC<Props> = ({
   onSubmit,
   onCancel,
 }) => {
+  const [showIconSearch, setShowIconSearch] = useState<boolean>(false)
+
+  if (showIconSearch) {
+    return (
+      <div>
+        <div>
+          <div className="flex flex-row items-center pb-2">
+            <button className="mr-2" onClick={() => setShowIconSearch(false)}>
+              <CloseIcon />
+            </button>
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
+              Find Icons
+            </h2>
+          </div>
+          <Input
+            value={name.value}
+            onChange={name.onChange}
+            error={name.error}
+            placeholder="Search for Icons"
+          />
+        </div>
+        <div>
+          <SearchItem
+            label="Something"
+            value="something"
+            onSelect={thing => console.log(thing)}
+          />
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col h-full">
       <h2 className="pb-2 text-xl font-bold text-zinc-900 dark:text-white">
@@ -59,6 +93,8 @@ export const BookmarkEditorView: React.FC<Props> = ({
           value={siSlug.value}
           onChange={siSlug.onChange}
           label="Simple Icon Slug"
+          showButton
+          onButtonClick={() => setShowIconSearch(true)}
         />
         <Checkbox
           label="Use Favicon"
