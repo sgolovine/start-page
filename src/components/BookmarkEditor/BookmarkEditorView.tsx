@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useRef, useState } from "react"
+import { useIconSearch } from "../../hooks/useIconSearch"
 import { IconButton } from "../common/IconButton"
 import { CloseIcon } from "../icons/CloseIcon"
 import { Checkbox, Input, SearchItem } from "./EditorComponents"
@@ -38,6 +39,8 @@ export const BookmarkEditorView: React.FC<Props> = ({
 }) => {
   const [showIconSearch, setShowIconSearch] = useState<boolean>(false)
 
+  const { searchResults, searchValue, setSearchValue } = useIconSearch()
+
   if (showIconSearch) {
     return (
       <div>
@@ -51,18 +54,21 @@ export const BookmarkEditorView: React.FC<Props> = ({
             </h2>
           </div>
           <Input
-            value={name.value}
-            onChange={name.onChange}
-            error={name.error}
+            value={searchValue}
+            onChange={setSearchValue}
             placeholder="Search for Icons"
           />
         </div>
         <div>
-          <SearchItem
-            label="Something"
-            value="something"
-            onSelect={thing => console.log(thing)}
-          />
+          {searchResults.map(result => {
+            return (
+              <SearchItem
+                label="Something"
+                value="something"
+                onSelect={thing => console.log(thing)}
+              />
+            )
+          })}
         </div>
       </div>
     )
