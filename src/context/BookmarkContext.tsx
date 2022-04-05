@@ -18,6 +18,7 @@ interface BookmarkContext {
   removeBookmark: (id: string) => void
   debugAddBookmarks: (numberOfBookmarks: number) => void
   debugClearBookmarks: () => void
+  restoreBookmarks: (state: BookmarkState) => void
 }
 
 export const initialState = {
@@ -29,6 +30,7 @@ enum ActionTypes {
   RemoveBookmark = "REMOVE_BOOKMARK",
   DebugAddBookmarks = "DEBUG_ADD_BOOKMARKS",
   DebugClearBookmarks = "DEBUG_CLEAR_BOOKMARKS",
+  RestoreBookmarks = "RESTORE_BOOKMARKS",
 }
 
 function createMockBookmark(id: number): Bookmark {
@@ -75,6 +77,12 @@ export function reducer(
         bookmarks: omitKey(action.payload, state.bookmarks),
       }
     }
+    case ActionTypes.RestoreBookmarks: {
+      return {
+        ...state,
+        bookmarks: action.payload,
+      }
+    }
     default:
       return state
   }
@@ -114,6 +122,13 @@ export const BookmarkProvider: React.FC = ({ children }) => {
     })
   }
 
+  const restoreBookmarks = (state: BookmarkState) => {
+    dispatch({
+      type: ActionTypes.RestoreBookmarks,
+      payload: state,
+    })
+  }
+
   const debugClearBookmarks = () => {
     dispatch({ type: ActionTypes.DebugClearBookmarks })
   }
@@ -133,6 +148,7 @@ export const BookmarkProvider: React.FC = ({ children }) => {
         removeBookmark,
         debugAddBookmarks,
         debugClearBookmarks,
+        restoreBookmarks,
       }}
     >
       {children}
